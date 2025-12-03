@@ -1,0 +1,392 @@
+#!/usr/bin/env python3
+"""
+Simple but functional file browser using pygame.
+
+Run: python file_browser.py
+"""
+
+import os
+import sys
+import time
+import subprocess
+import math
+from pathlib import Path
+import pygame
+
+pygame.init()
+pygame.display.set_caption("Pygame File Browser")
+
+# CONFIG
+WIN_SIZE = (900, 640)
+BG_COLOR = (18, 18, 18)
+ROW_HEIGHT = 48
+PADDING = 10
+FONT_NAME = "monospace"
+FONT_SIZE = 18
+DOUBLE_CLICK_MS = 400
+SEARCH_CLEAR_SEC = 1.5
+ICON_SIZE = 28
+
+
+# Utility functions
+def human_size(n):
+    # human readable size
+    for unit in ["B", "KB", "MB", "GB", "TB"]:
+        if n < 1024.0:
+            return f"{n:.0f}{unit}" if unit == "B" else f"{n:.1f}{unit}"
+        n /= 1024.0
+    return f"{n:.1f}PB"
+
+
+def elide(text, font, max_width):
+    if font.size(text)[0] <= max_width:
+        return text
+    # elide with ...
+    for i in range(len(text), 0, -1):
+        s = text[:i] + "..."
+        if font.size(s)[0] <= max_width:
+            return s
+    return text[: max(0, int(max_width // (font.size("a")[0] or 1)))] + "..."
+
+
+class FileEntry:
+    def __init__(self, path: Path):
+        self.path = path
+        try:
+            st = path.stat()
+            self.is_dir = path.is_dir()
+            self.size = st.st_size if not self.is_dir else 0
+            self.mtime = st.st_mtime
+            self.name = path.name
+            self.mode = st.st_mode
+        except Exception:
+            # file might disappear while reading
+            self.is_dir = path.is_dir() if path.exists() else False
+            self.size = 0
+            self.mtime = 0
+            self.name = path.name
+            self.mode = 0
+
+    def is_executable(self):
+        # basic unix exec test
+        return os.access(self.path, os.X_OK) and not self.is_dir
+
+
+class FileBrowser:
+    def __init__(self, start_path: str = "."):
+        self.win = pygame.display.set_mode(WIN_SIZE, pygame.RESIZABLE)
+        self.font = pygame.font.SysFont(FONT_NAME, FONT_SIZE)
+        self.small_font = pygame.font.SysFont(FONT_NAME, FONT_SIZE - 2)
+        self.path = Path(start_path).resolve()
+        self.show_hidden = False
+        self.entries = []
+        self.selected = 0
+        self.scroll = 0.0  # float for smoothness
+        self.last_click_time = 0
+        self.last_click_index = None
+        self.search_text = ""
+        self.search_time = 0
+        self.load_dir(self.path)
+
+    def load_dir(self, path: Path):
+        try:
+            self.path = path.resolve()
+        except Exception:
+            self.path = Path(".").resolve()
+        self.entries = []
+        # parent entry (..)
+        if self.path.parent != self.path:
+            self.entries.append(FileEntry(self.path.parent))
+            self.entries[-1].name = ".."
+        try:
+            with os.scandir(self.path) as it:
+                items = []
+                for e in it:
+                    # handle hidden files
+                    if not self.show_hidden and e.name.startswith("."):
+                        continue
+                    items.append(FileEntry(Path(e.path)))
+                # sort: dirs first, then files, both alphabetically
+                items.sort(key=lambda fe: (not fe.is_dir, fe.name.lower()))
+                self.entries.extend(items)
+        except PermissionError:
+            # show nothing besides parent
+            pass
+        except FileNotFoundError:
+            # path disappeared
+            self.entries = []
+        self.clamp_selection()
+        self.ensure_visible()
+
+    def clamp_selection(self):
+        if not self.entries:
+            self.selected = 0
+            return
+        if self.selected < 0:
+            self.selected = 0
+        if self.selected >= len(self.entries):
+            self.selected = len(self.entries) - 1
+
+    def ensure_visible(self):
+        # adjust scroll to make selected visible
+        h = self.win.get_height()
+        visible = h // ROW_HEIGHT
+        if visible <= 0:
+            return
+        top = int(self.scroll)
+        bottom = top + visible - 1
+        if self.selected < top:
+            self.scroll = float(self.selected)
+        elif self.selected > bottom:
+            self.scroll = float(self.selected - visible + 1)
+        self.clamp_scroll()
+
+    def clamp_scroll(self):
+        max_top = max(
+            0, len(self.entries) - max(1, self.win.get_height() // ROW_HEIGHT)
+        )
+        if self.scroll < 0:
+            self.scroll = 0.0
+        if self.scroll > max_top:
+            self.scroll = float(max_top)
+
+    def open_entry(self, idx):
+        if idx < 0 or idx >= len(self.entries):
+            return
+        ent = self.entries[idx]
+        path = ent.path
+        # If the name is "..", actually go up
+        if ent.name == "..":
+            self.load_dir(self.path.parent)
+            self.selected = 0
+            self.ensure_visible()
+            return
+        if ent.is_dir:
+            self.load_dir(path)
+            self.selected = 0
+            self.ensure_visible()
+        else:
+            # open with xdg-open on linux
+            try:
+                subprocess.Popen(["xdg-open", str(path)])
+            except Exception:
+                # fallback: os.system
+                os.system(f'xdg-open "{str(path)}" &')
+
+    def handle_key(self, event: pygame.event.Event):
+        if event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            sys.exit()
+        elif event.key == pygame.K_UP:
+            self.selected -= 1
+            self.clamp_selection()
+            self.ensure_visible()
+        elif event.key == pygame.K_DOWN:
+            self.selected += 1
+            self.clamp_selection()
+            self.ensure_visible()
+        elif event.key == pygame.K_PAGEUP:
+            step = max(1, self.win.get_height() // ROW_HEIGHT - 1)
+            self.selected -= step
+            self.clamp_selection()
+            self.ensure_visible()
+        elif event.key == pygame.K_PAGEDOWN:
+            step = max(1, self.win.get_height() // ROW_HEIGHT - 1)
+            self.selected += step
+            self.clamp_selection()
+            self.ensure_visible()
+        elif event.key == pygame.K_HOME:
+            self.selected = 0
+            self.ensure_visible()
+        elif event.key == pygame.K_END:
+            self.selected = len(self.entries) - 1
+            self.ensure_visible()
+        elif event.key == pygame.K_RETURN:
+            self.open_entry(self.selected)
+        elif event.key == pygame.K_LEFT:
+            # go up (same as selecting ..)
+            if self.path.parent != self.path:
+                self.load_dir(self.path.parent)
+                self.selected = 0
+                self.ensure_visible()
+        elif event.key == pygame.K_F5:
+            self.load_dir(self.path)
+        elif event.key == pygame.K_PERIOD:
+            # toggle hidden
+            self.show_hidden = not self.show_hidden
+            self.load_dir(self.path)
+        else:
+            # Quick search: type letters to jump
+            if event.unicode and not event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
+                if event.key == pygame.K_BACKSPACE:
+                    self.search_text = self.search_text[:-1]
+                else:
+                    self.search_text += event.unicode
+                self.search_time = time.time()
+                # find first entry starting with search_text
+                s = self.search_text.lower()
+                if s:
+                    for i, e in enumerate(self.entries):
+                        if e.name.lower().startswith(s):
+                            self.selected = i
+                            self.ensure_visible()
+                            break
+
+    def handle_mouse(self, event: pygame.event.Event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            # scroll wheel
+            if event.button == 4:  # wheel up
+                self.scroll -= 3
+                self.clamp_scroll()
+            elif event.button == 5:  # wheel down
+                self.scroll += 3
+                self.clamp_scroll()
+            elif event.button == 1:  # left click
+                row = int(y // ROW_HEIGHT) + int(self.scroll)
+                if 0 <= row < len(self.entries):
+                    now = pygame.time.get_ticks()
+                    # select
+                    self.selected = row
+                    # double click?
+                    if (
+                        self.last_click_index == row
+                        and (now - self.last_click_time) <= DOUBLE_CLICK_MS
+                    ):
+                        self.open_entry(row)
+                        self.last_click_time = 0
+                        self.last_click_index = None
+                    else:
+                        self.last_click_time = now
+                        self.last_click_index = row
+                    self.ensure_visible()
+        elif event.type == pygame.MOUSEWHEEL:
+            # newer pygame mousewheel events
+            self.scroll -= event.y * 3
+            self.clamp_scroll()
+
+    def draw(self):
+        w, h = self.win.get_size()
+        self.win.fill(BG_COLOR)
+
+        # top bar (breadcrumb + info)
+        top_bar_h = ROW_HEIGHT
+        pygame.draw.rect(self.win, (28, 28, 28), (0, 0, w, top_bar_h))
+        path_text = str(self.path)
+        path_surf = self.font.render(
+            elide(path_text, self.font, w - 200), True, (220, 220, 220)
+        )
+        self.win.blit(path_surf, (PADDING, (top_bar_h - path_surf.get_height()) // 2))
+
+        info = (
+            f"{len(self.entries)} items  {'(hidden shown)' if self.show_hidden else ''}"
+        )
+        info_surf = self.small_font.render(info, True, (170, 170, 170))
+        self.win.blit(
+            info_surf,
+            (
+                w - info_surf.get_width() - PADDING,
+                (top_bar_h - info_surf.get_height()) // 2,
+            ),
+        )
+
+        # list area
+        list_top = top_bar_h
+        visible_rows = (h - list_top) // ROW_HEIGHT
+        start = int(self.scroll)
+        end = min(len(self.entries), start + visible_rows + 1)
+
+        for i in range(start, end):
+            y = list_top + (i - start) * ROW_HEIGHT
+            ent = self.entries[i]
+            is_selected = i == self.selected
+            bg = (30, 30, 30) if is_selected else (22, 22, 22)
+            pygame.draw.rect(self.win, bg, (0, y, w, ROW_HEIGHT))
+            # border line
+            pygame.draw.line(
+                self.win, (12, 12, 12), (0, y + ROW_HEIGHT - 1), (w, y + ROW_HEIGHT - 1)
+            )
+
+            # icon
+            icon_x = PADDING
+            icon_y = y + (ROW_HEIGHT - ICON_SIZE) // 2
+            if ent.name == "..":
+                color = (160, 160, 160)
+            elif ent.is_dir:
+                color = (255, 200, 60)
+            elif ent.is_executable():
+                color = (90, 200, 120)
+            else:
+                color = (120, 160, 220)
+            pygame.draw.rect(
+                self.win, color, (icon_x, icon_y, ICON_SIZE, ICON_SIZE), border_radius=6
+            )
+            # file name
+            name_x = icon_x + ICON_SIZE + PADDING
+            name_w = w - name_x - 200
+            name_text = ent.name
+            name_surf = self.font.render(
+                elide(name_text, self.font, name_w), True, (230, 230, 230)
+            )
+            self.win.blit(
+                name_surf, (name_x, y + (ROW_HEIGHT - name_surf.get_height()) // 2)
+            )
+
+            # size and mtime on the right
+            if ent.is_dir or ent.name == "..":
+                size_text = "<DIR>"
+            else:
+                size_text = human_size(ent.size)
+            try:
+                mtime_text = time.strftime("%Y-%m-%d %H:%M", time.localtime(ent.mtime))
+            except Exception:
+                mtime_text = ""
+            meta = f"{size_text}  {mtime_text}"
+            meta_surf = self.small_font.render(meta, True, (160, 160, 160))
+            self.win.blit(
+                meta_surf,
+                (
+                    w - meta_surf.get_width() - PADDING,
+                    y + (ROW_HEIGHT - meta_surf.get_height()) // 2,
+                ),
+            )
+
+        # search hint
+        if self.search_text:
+            st = f"Search: {self.search_text}"
+            s_surf = self.small_font.render(st, True, (200, 200, 200))
+            self.win.blit(s_surf, (PADDING, h - s_surf.get_height() - 6))
+
+        pygame.display.flip()
+
+    def update(self, dt):
+        # clear search if timed out
+        if self.search_text and (time.time() - self.search_time > SEARCH_CLEAR_SEC):
+            self.search_text = ""
+
+    def run(self):
+        clock = pygame.time.Clock()
+        while True:
+            dt = clock.tick(60) / 1000.0
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.VIDEORESIZE:
+                    self.win = pygame.display.set_mode(
+                        (event.w, event.h), pygame.RESIZABLE
+                    )
+                    self.ensure_visible()
+                elif event.type == pygame.KEYDOWN:
+                    self.handle_key(event)
+                elif event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEWHEEL):
+                    self.handle_mouse(event)
+            # keyboard continuous: page up/down could be repeated but KEYDOWN handles it
+            self.draw()
+            self.update(dt)
+
+
+if __name__ == "__main__":
+    start = sys.argv[1] if len(sys.argv) > 1 else "."
+    fb = FileBrowser(start_path=start)
+    fb.run()

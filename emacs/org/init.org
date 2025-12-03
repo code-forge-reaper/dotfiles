@@ -4,14 +4,6 @@
 This is my Emacs configuration, written in org-mode for better documentation.
 It uses **Elpaca** as the package manager.
 
-* UI Cleanup
-#+begin_src emacs-lisp
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(setq inhibit-startup-screen t)
-#+end_src
-
 * Elpaca Bootstrap
 #+begin_src emacs-lisp
 (defvar elpaca-installer-version 0.11)
@@ -54,131 +46,201 @@ It uses **Elpaca** as the package manager.
 (elpaca `(,@elpaca-order))
 #+end_src
 
-* Package Setup
+* Core UI & Behavior (early)
 #+begin_src emacs-lisp
-  (setq evil-want-keybinding nil)
-  ;; Enable Elpaca + use-package integration
-  (elpaca elpaca-use-package
-    (elpaca-use-package-mode))
+;; Basic UI Cleanup (do this early so startup is minimal)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(setq inhibit-startup-screen t)
 
-  ;; Theme
-  (use-package monokai-theme
-    :ensure t
-    :config
-    (load-theme 'monokai t))
+;; Auto-revert buffers
+(global-auto-revert-mode 1)
 
-  ;; Evil (Vim bindings)
-  (use-package evil-collection
-    :ensure t
-    :after evil
-    :init
-    (evil-collection-init)
-  )
-  
-  (use-package evil
-    :ensure t
-    :config
-    (evil-mode 1))
-
-  (setq evil-search-module 'evil-search)
-
-  ;; Doom modeline
-  (use-package doom-modeline
-    :ensure t
-    :config
-    (doom-modeline-mode 1))
-
-  ;; Perspective.el
-  (use-package perspective
-    :ensure t
-    :bind
-    ("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
-    :custom
-    (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
-    :init
-    (persp-mode 1))
-  (electric-pair-mode 1)
-
-  ;; Git
-  (use-package transient
-    :ensure t
-  )
-
-  (use-package magit
-    :ensure t)
-
-  ;; LSP core + UI
-  (use-package lsp-mode
-    :ensure t
-    :commands lsp
-    :hook ((c-mode odin-mode c++-mode lua-mode typescript-mode) . lsp)
-    :init
-    (setq lsp-enable-on-type-formatting nil
-          lsp-enable-indentation nil
-          lsp-completion-provider :capf
-          lsp-prefer-flymake nil)
-    :config
-    (add-to-list 'lsp-language-id-configuration '(c++-mode . "cpp"))
-    (add-to-list 'lsp-language-id-configuration '(c-mode . "c")))
-
-  (use-package lsp-ui
-    :ensure t
-    :after lsp-mode
-    :hook (lsp-mode . lsp-ui-mode)
-    :config
-    (setq lsp-ui-doc-enable t
-          lsp-enable-symbol-highlighting t))
-
-  ;; Company (autocomplete)
-  (use-package company
-    :ensure t
-    :hook (prog-mode . company-mode))
-
-  ;; Which-key (helpful key popup)
-  (use-package which-key
-    :ensure t
-    :config
-    (which-key-mode))
-
-  ;; Vertico (completion interface)
-  (use-package vertico
-    :ensure t
-    :config
-    (vertico-mode 1))
-
-  ;; Language modes
-  (use-package lua-mode
-    :ensure t)
-  (use-package typescript-mode
-    :ensure t)
-
-
-;; Enable odin-mode and configure OLS as the language server
-(use-package odin-mode
-  :ensure (:host github :repo "mattt-b/odin-mode")
-  :mode ("\\.odin\\'" . odin-mode))
-
+;; Scrolling precision
+(pixel-scroll-precision-mode 1)
 #+end_src
 
 * Misc Settings
 #+begin_src emacs-lisp
+;; Line numbers
 (global-display-line-numbers-mode t)
 (setq display-line-numbers-type 'relative)
 
-;; Better buffer management
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-
 ;; Font and tab settings
-(set-frame-font "JetBrainsMono Nerd Font-18" nil t)
 (setq-default tab-width 4)
+(set-face-attribute 'default nil :font "JetBrainsMono Nerd Font-16")
+(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font-16"))
 
 ;; Disable backup/lock/autosave
 (setq make-backup-files nil
       auto-save-default nil
       create-lockfiles nil)
+
+;; Handy aliases
+(defalias 'lf 'lsp-format-buffer)
 #+end_src
 
-* Load Additional Modes
+* Package Setup
+#+begin_src emacs-lisp
+;; Enable Elpaca + use-package integration early
+(elpaca elpaca-use-package
+  (elpaca-use-package-mode))
+
+;; -------------------------
+;; Editing / Modal bindings
+;; -------------------------
+;; Must set before evil loads
+(setq evil-want-keybinding nil)
+
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1)
+  (define-key evil-normal-state-map (kbd "f") #'lsp-format-buffer))
+
+(use-package evil-collection
+  :ensure t
+  :after evil
+  :init
+  (evil-collection-init))
+
+;; Electric pairs
+(electric-pair-mode 1)
+
+;; -------------------------
+;; UI / Appearance
+;; -------------------------
+(use-package monokai-theme
+  :ensure t
+  :config
+  (load-theme 'monokai t))
+
+(use-package doom-modeline
+  :ensure t
+  :config
+  (doom-modeline-mode 1))
+
+;; -------------------------
+;; Minibuffer / Completion
+;; -------------------------
+(use-package vertico
+  :ensure t
+  :config
+  (vertico-mode 1))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package consult
+  :ensure t)
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+;; Company for code completion
+(use-package company
+  :ensure t
+  :hook (prog-mode . company-mode))
+
+;; -------------------------
+;; Project / Workspace
+;; -------------------------
+(use-package perspective
+  :ensure t
+  :custom
+  (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
+  :init
+  (persp-mode 1))
+
+;; -------------------------
+;; Version control / Git
+;; -------------------------
+(use-package transient
+  :ensure t)
+
+(use-package magit
+  :ensure t)
+
+;; -------------------------
+;; Terminal / File browsing
+;; -------------------------
+(use-package vterm
+  :ensure t)
+
+(use-package dirvish
+  :ensure t
+  :config
+  (dirvish-override-dired-mode))
+(global-set-key (kbd "C-x C-d") 'dirvish)
+
+;; -------------------------
+;; Misc helpful packages
+;; -------------------------
+(use-package emacs-everywhere
+  :ensure t)
+
+(use-package simpleclip
+  :ensure t)
+(use-package go-mode
+  :ensure t)
+
+;; -------------------------
+;; Language modes / Tools
+;; -------------------------
+(use-package lua-mode
+  :ensure t)
+
+(use-package typescript-mode
+  :ensure t)
+
+;; Odin mode from GitHub
+(use-package odin-mode
+  :ensure (:host github :repo "mattt-b/odin-mode")
+  :mode ("\\.odin\\'" . odin-mode))
+
+;; -------------------------
+;; LSP (language server) and UI
+;; -------------------------
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :hook ((c-mode odin-mode c++-mode lua-mode typescript-mode) . lsp)
+  ;; :init
+  ;; (setq lsp-enable-on-type-formatting nil
+  ;;       lsp-enable-indentation nil
+  ;;       lsp-completion-provider :capf
+  ;;       lsp-prefer-flymake nil)
+  :config
+  (add-to-list 'lsp-language-id-configuration '(c++-mode . "cpp"))
+  (add-to-list 'lsp-language-id-configuration '(c-mode . "c")))
+
+(setq lsp-inlay-hint-enable t)
+(setq lsp-enable-folders-blacklist nil)
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
+  (setq lsp-ui-doc-enable t
+        lsp-enable-symbol-highlighting t))
+
+;; -------------------------
+;; Buffer management
+;; -------------------------
+(add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
+(global-set-key (kbd "C-x C-b") 'consult-buffer)
+
+#+end_src
+
+* Load Additional Modes (local)
 #+begin_src emacs-lisp
 (defun load-directory-modes (dir)
   "Load all Emacs Lisp files from DIR."

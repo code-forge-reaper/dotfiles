@@ -1,7 +1,7 @@
 local servers = {
 	"lua_ls",
 	"pyright",
-	"ts_ls",
+	"typescript-language-server",
 	"clangd",
 	"ols",
 	"gdscript",

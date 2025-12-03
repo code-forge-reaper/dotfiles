@@ -44,11 +44,14 @@ set -x PATH $HOME/bin $HOME/.rbenv/shims $PATH
 set -x PATH $PATH $HOME/.config/emacs/bin $HOME/.local/share/gem/ruby/*/bin
 set -x PATH /opt/brew/opt/pod2man/bin $PATH
 set -x PATH /opt/brew/bin $PATH
+set -x PATH $HOME/.ghcup/bin $PATH
 set -x PATH $PATH ~/.local/bin/
+set -x PATH $PATH ~/.config/emacs/bin/
 set -x PATH $PATH /opt/android-sdk/platform-tools/
 set -x PATH $HOME/scripts $PATH
 
-eval (uni-path.py fish)
+
+eval (uni-path.py fish) # de-dups paths
 
 # functions
 function kitty-reload
@@ -106,6 +109,7 @@ end
 # aliases
 alias ls="eza -l"
 alias la="ls -a"
+alias pypy=pypy3
 #alias ffrec="ffmpeg -f x11grab -i :0.0"
 alias ffrec="ffmpeg -f x11grab -i :0.0 -f alsa -i default"
 
@@ -120,20 +124,23 @@ alias e="edit"
 
 alias gcg="git config --global"
 alias gas="git add .; git status --short"
-alias emacscli="emacsclient"
 alias ncm="ncmpcpp"
 alias tree="tree -C"
+alias ec="emacsclient -c"
+alias el="emacsclient"
+
 #alias yt='yt-dlp -o "$HOME/Music/%(uploader)s/%(playlist_title/|)s%(title)s [%(id)s].%(ext)s"'
 
 # dynamic initialization
 fzf --fish | source
 zoxide init --cmd cd fish | source
 #source (/usr/bin/starship init fish --print-full-init | psub)
-
+source $HOME/.deno/env.fish
 # bun
 set -x BUN_INSTALL $HOME/.bun
 set -x PATH $BUN_INSTALL/bin $PATH
 
+set -x DOCKER_HOST "unix:///run/user/1000/docker.sock"
 
 function fish_greeting
 end

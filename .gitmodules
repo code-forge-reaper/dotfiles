@@ -1,0 +1,3 @@
+[submodule "awesome/deficient"]
+	path = awesome/deficient
+	url = https://github.com/deficient/deficient.git

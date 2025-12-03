@@ -1,5 +1,6 @@
 emacs/org/*.el
 emacs/transient/
+emacs/elpa/
 emacs/elpaca/
 emacs/straight/
 emacs/auto-save-list/

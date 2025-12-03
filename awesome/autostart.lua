@@ -5,7 +5,7 @@ local apps = {
 	"mpd",
 	terminal,
 	"xfce4-power-manager",
-	"emacs --daemon"
+	"/usr/bin/emacs --daemon"
 }
 
 for _, value in pairs(apps) do
