@@ -71,6 +71,7 @@ return {
 			"hrsh7th/cmp-cmdline", -- : commands
 			"L3MON4D3/LuaSnip", -- Snippets
 			"saadparwaiz1/cmp_luasnip",
+			"onsails/lspkind.nvim"
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -107,7 +108,16 @@ return {
 					{ name = "luasnip" },
 					{ name = "buffer" },
 					{ name = "path" },
+					{ name = "codeium" },
 				}),
+				formatting = {
+				    format = require('lspkind').cmp_format({
+				        mode = "symbol",
+				        maxwidth = 50,
+				        ellipsis_char = '...',
+				        symbol_map = { Codeium = "", }
+				    })
+				}
 			})
 
 			-- cmdline completions

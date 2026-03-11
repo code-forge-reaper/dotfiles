@@ -1,69 +1,112 @@
-# Function to get the current Git status
-_git_status() {
-    local git_status
+# Start configuration added by Zim Framework install {{{
+#
+# User configuration sourced by interactive shells
+#
 
-    # Check if we are in a Git repository
-    if git rev-parse --is-inside-work-tree &>/dev/null; then
-        # Get the Git branch name
-        local branch
-        branch=$(git symbolic-ref --short HEAD 2>/dev/null)
-        
-        # Get the number of changes not staged for commit
-        local unstaged
-        unstaged=$(git diff --name-only --no-ext-diff | wc -l)
-        
-        # Get the number of changes staged for commit
-        local staged
-        staged=$(git diff --cached --name-only --no-ext-diff | wc -l)
-        
-        # Get the number of untracked files
-        local untracked
-        untracked=$(git status --porcelain | grep '??' | wc -l)
+# -----------------
+# Zsh configuration
+# -----------------
 
-        # Format the Git status output
-        git_status="%F{yellow}${branch}%f"
-        [ "$staged" -gt 0 ] && git_status+=" %F{green}+${staged}%f"
-        [ "$unstaged" -gt 0 ] && git_status+=" %F{red}!${unstaged}%f"
-        [ "$untracked" -gt 0 ] && git_status+=" %F{blue}?${untracked}%f"
-        
-        echo "$git_status"
-    fi
-}
+#
+# History
+#
 
+# Remove older command from the history if a duplicate is to be added.
+setopt HIST_IGNORE_ALL_DUPS
 
-# Function to get the current Git branch
-_git_branch() {
-    local branch
-    branch=$(git branch --show-current 2>/dev/null)
-    echo "$branch"
-}
+#
+# Input/output
+#
 
+# Set editor default keymap to emacs (`-e`) or vi (`-v`)
+bindkey -e
 
-get_error(){
-	if [ $status -ne 0 ]; then
-		echo "[error $status]"
-	fi
-}
+# Prompt for spelling correction of commands.
+#setopt CORRECT
 
+# Customize spelling correction prompt.
+#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 
-# Function to update the prompt
-update_prompt() {
-    PS1="[%F{blue}$(whoami)@$HOST%f] %F{cyan}%~%f %F{yellow}$(_git_status)%f
-%F{red}$(get_error)%f%F{green}❯%f "
-    RPS1="%F{magenta}[%*]%f"
-}
+# Remove path separator from WORDCHARS.
+WORDCHARS=${WORDCHARS//[\/]}
 
-# Call update_prompt before every command
-precmd_functions+=(update_prompt)
+# --------------------
+# Module configuration
+# --------------------
 
+#
+# git
+#
 
-# Initialize the prompt
-update_prompt
+# Set a custom prefix for the generated aliases. The default prefix is 'G'.
+#zstyle ':zim:git' aliases-prefix 'g'
+
+#
+# input
+#
+
+# Append `../` to your input for each `.` you type after an initial `..`
+#zstyle ':zim:input' double-dot-expand yes
+
+#
+# termtitle
+#
+
+# Set a custom terminal title format using prompt expansion escape sequences.
+# See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
+# If none is provided, the default '%n@%m: %~' is used.
+#zstyle ':zim:termtitle' format '%1~'
+
+#
+# zsh-autosuggestions
+#
+
+# Disable automatic widget re-binding on each precmd. This can be set when
+# zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+# Customize the style that the suggestions are shown with.
+# See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+
+#
+# zsh-syntax-highlighting
+#
+
+# Set what highlighters will be used.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+# Customize the main highlighter styles.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md#how-to-tweak-it
+#typeset -A ZSH_HIGHLIGHT_STYLES
+#ZSH_HIGHLIGHT_STYLES[comment]='fg=242'
+
+# ------------------
+# Initialize modules
+# ------------------
+
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  if (( ${+commands[curl]} )); then
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  else
+    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  fi
+fi
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE:-${ZDOTDIR:-${HOME}}/.zimrc} ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
+# }}} End configuration added by Zim Framework install
 
 source $HOME/.config/zsh/enviormentVars.zsh
 source $HOME/.config/zsh/dynamic_init.zsh
 source $HOME/.config/zsh/aliases.zsh
 source $HOME/.config/zsh/rt-plug.zsh
 source $HOME/.config/zsh/plugins.zsh
-source $HOME/.config/zsh/usr-script.zsh
-autoload -Uz compinit && compinit

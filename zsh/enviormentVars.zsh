@@ -1,20 +1,31 @@
 # Editor configuration
-export BROWSER=brave
+export BROWSER=helium-browser
 
 export EDITOR="nvim"
 export MANPAGER="nvim +Man!"
 
 # Odin programming language root directory
-export ODIN_ROOT="$HOME/Downloads/Odin-master/"
+export ODIN_ROOT="$HOME/git/odin/"
 
 # Paths
-export PATH="$HOME/.rbenv/shims:$PATH"
-export PATH="$HOME/bin:$HOME/.config/emacs/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
-export PATH="/opt/brew/opt/pod2man/bin:$PATH"
-export PATH="/opt/brew/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/scripts:$PATH"
-export PATH="/opt/android-sdk/platform-tools:$PATH"
+#export PATH="$HOME/.rbenv/shims:$PATH"
+#export PATH="$HOME/bin:$HOME/.config/emacs/bin:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
+#export PATH="/opt/brew/opt/pod2man/bin:$PATH"
+#export PATH="/opt/brew/bin:$PATH"
+#export PATH="$HOME/.local/bin:$PATH"
+#export PATH="$HOME/scripts:$PATH"
+#export PATH="/opt/android-sdk/platform-tools:$PATH"
+
+export  PATH="$HOME/bin:$HOME/.rbenv/shims:$PATH"
+export  PATH="$PATH:$HOME/.config/emacs/bin:$HOME/.local/share/gem/ruby/*/bin"
+export  PATH="/opt/brew/opt/pod2man/bin:$PATH"
+export  PATH="/opt/brew/bin:$PATH"
+export  PATH="$HOME/.ghcup/bin:$PATH"
+export  PATH="$PATH:~/.local/bin/"
+export  PATH="$PATH:~/.config/emacs/bin/"
+export  PATH="$PATH:/opt/android-sdk/platform-tools/"
+export  PATH="$HOME/scripts:$PATH"
+export  PATH="$HOME/go/bin:$PATH"
 
 # Bun
 export BUN_INSTALL="$HOME/.bun"
@@ -38,3 +49,4 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_VERIFY
 # Append to the history file, rather than overwriting
 setopt APPEND_HISTORY
+eval $(uni-path.py zsh)

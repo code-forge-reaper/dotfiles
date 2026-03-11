@@ -1,3 +1,5 @@
+os.execute("bash ~/scripts/init.sh")
+--[[
 local apps = {
 	"nitrogen --restore",
 	"picom",
@@ -11,4 +13,4 @@ local apps = {
 for _, value in pairs(apps) do
 	os.execute(value.."&")
 end
-
+]]

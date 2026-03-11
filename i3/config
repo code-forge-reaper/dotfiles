@@ -60,8 +60,8 @@ bindsym $mod+Return exec --no-startup-id sh -c 'command -v alacritty && alacritt
 bindsym $mod+Shift+Return exec --no-startup-id sh -c 'command -v kitty && kitty || notify-send "kitty not found!"'
 
 # Launch xfce4-terminal if available, otherwise send a notification
-#bindsym $mod+Control+Return exec --no-startup-id sh -c 'command -v xfce4-terminal && xfce4-terminal || notify-send "xfce4-terminal not found!"'
 bindsym $mod+Control+Return exec --no-startup-id sh -c 'command -v xfce4-terminal && xfce4-terminal || notify-send "xfce4-terminal not found!"'
+
 bindsym $mod+b exec --no-startup-id sh -c 'command -v boomer && boomer || notify-send "boomer not found!"'
 # Launch foot(terminal) if available, otherwise send a notification
 # WARNING: this is wayland only
@@ -216,11 +216,11 @@ exec --no-startup-id blueman-applet
 exec --no-startup-id nm-applet
 
 # background image
-#exec --no-startup-id nitrogen --restore
+exec --no-startup-id nitrogen --restore
 
 # transparency
 exec --no-startup-id picom
-exec --no-startup-id feh --bg-fill ~/Downloads/924569.png
+exec --no-startup-id feh --bg-fill ~/Downloads/magenta-nature-fantasy-landscape.jpg
 # notifications
 exec --no-startup-id dunst
 
@@ -228,7 +228,7 @@ exec --no-startup-id dunst
 exec --no-startup-id mpd
 
 # the terminal
-exec --no-startup-id xfce4-terminal
+exec --no-startup-id alacritty
 exec --no-startup-id cbatticon
 exec --no-startup-id volumeicon
 
@@ -240,4 +240,5 @@ exec --no-startup-id pamac-daemon
 exec --no-startup-id pnmixer
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-exec --no-startup-id export BROWSER=brave-browser
+exec --no-startup-id export BROWSER=helium-browser
+#exec --no-startup-id init.sh

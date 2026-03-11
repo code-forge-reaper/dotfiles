@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Print informational messages to stderr
+info() {
+  printf "[INFO] %s\n" "$*" >&2
+}
+
+error() {
+  printf "[ERROR] %s\n" "$*" >&2
+}
+
+# Show usage
+usage() {
+  printf 'usage: %s <archive-file> [outdir]\n' "$(basename "$0")" >&2
+  exit 2
+}
+
+# Main script
+main() {
+  # Parse arguments
+  if [[ $# -lt 1 ]]; then
+    usage
+  fi
+
+  file="$1"
+  out="${2:-./$(basename "${file%.*}")_extracted}"
+
+  info "Input archive: $file"
+  info "Output directory: $out"
+
+  # Check if the input file exists and is readable
+  if [[ ! -f "$file" ]]; then
+    error "File '$file' does not exist or is not a regular file."
+    exit 1
+  fi
+
+  if [[ ! -r "$file" ]]; then
+    error "File '$file' is not readable."
+    exit 1
+  fi
+
+  # Make absolute paths to avoid weirdness
+  if command -v realpath >/dev/null 2>&1; then
+    file="$(realpath "$file")"
+    info "Resolved absolute path: $file"
+  else
+    info "realpath not available; using relative path."
+  fi
+
+  # Create output directory (realpath -m helps build an absolute path without requiring existing directories)
+  if command -v realpath >/dev/null 2>&1; then
+    out="$(realpath -m "$out")"
+  fi
+  mkdir -p "$out"
+  info "Created output directory: $out"
+
+  # Try extractors in order of preference
+
+  # 1. bsdtar (libarchive) – handles most formats
+  if command -v bsdtar >/dev/null 2>&1; then
+    info "Using bsdtar to extract..."
+    bsdtar -x -f "$file" -C "$out"
+    info "Extraction successful with bsdtar."
+    exit 0
+  fi
+
+  # 2. GNU tar – auto-detects compression for tar.* files, but not zip/7z/rar
+  if command -v tar >/dev/null 2>&1; then
+    info "Checking if GNU tar can list the archive..."
+    if tar -tf "$file" >/dev/null 2>&1; then
+      info "Using GNU tar to extract (auto-detects compression)..."
+      tar -xf "$file" -C "$out"
+      info "Extraction successful with GNU tar."
+      exit 0
+    else
+      info "GNU tar could not list the archive; trying next method."
+    fi
+  fi
+
+  # 3. unzip – specifically for .zip files
+  if command -v unzip >/dev/null 2>&1 && [[ "${file,,}" == *.zip ]]; then
+    info "Using unzip to extract..."
+    unzip -d "$out" "$file"
+    info "Extraction successful with unzip."
+    exit 0
+  fi
+
+  # 4. 7z or 7za – handles many formats (including rar, 7z, etc.)
+  if command -v 7z >/dev/null 2>&1 || command -v 7za >/dev/null 2>&1; then
+    cmd="$(command -v 7z 2>/dev/null || command -v 7za)"
+    info "Using $cmd to extract..."
+    "$cmd" x -o"$out" "$file"
+    info "Extraction successful with $cmd."
+    exit 0
+  fi
+
+  # If we reach here, no extractor succeeded
+  error "No suitable extractor found (install bsdtar, tar, unzip or p7zip)."
+  exit 3
+}
+
+# Run the main function
+main "$@"

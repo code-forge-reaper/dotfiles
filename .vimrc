@@ -1,9 +1,15 @@
+" Install Plugins
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
 " Basic Settings
 set nocompatible          " Use Vim defaults (better than Vi)
 filetype plugin indent on " Enable filetype detection, plugins, and indentation
 syntax on                 " Enable syntax highlighting
 set encoding=utf-8        " Set default encoding to UTF-8
-
+set tabstop=4
+set softtabstop=4
 " Interface Enhancements
 set number                " Show line numbers
 set relativenumber        " Relative line numbers
@@ -84,9 +90,4 @@ let g:vimtex_quickfix_mode=0
 " Custom Keybindings for Convenience
 " (Add any additional keybindings here)
 
-" Install Plugins
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+autocmd VimEnter * PlugInstall --sync | source $MYVIMRC

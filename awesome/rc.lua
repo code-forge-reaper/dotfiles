@@ -52,7 +52,7 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
+terminal = "xfce4-terminal"
 --editor = os.getenv("EDITOR") or "emacsclient"
 --editor = "emacsclient -c "
 editor_cmd = "emacsclient -c"
@@ -339,6 +339,10 @@ globalkeys = gears.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
+    awful.key({ modkey, "Shift" }, "p", function()
+    	awful.spawn("rofi -show drun")
+    end,
+              {description = "start rofi", group = "launcher"}),
     -- volume
     awful.key(
         { }, "XF86AudioLowerVolume",

@@ -1,3 +1,6 @@
+[general]
+import = [ "~/Downloads/moonfly-default.toml" ]
+
 [window]
 opacity = 0.9
 blur = true
@@ -7,8 +10,8 @@ size = 16
 
   [font.normal]
   family = "JetBrainsMono Nerd Font"
-  style="ExtraBold"
+  style = "ExtraBold"
 
   [font.bold]
   family = "JetBrainsMono Nerd Font"
-  style="ExtraBold"
+  style = "ExtraBold"

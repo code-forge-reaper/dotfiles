@@ -1,1 +1,1 @@
-keymap("n","<C-n>", "Neotree toggle")
+keymap("n","<C-m>", "Neotree toggle")

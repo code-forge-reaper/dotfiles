@@ -49,9 +49,9 @@ set -x PATH $PATH ~/.local/bin/
 set -x PATH $PATH ~/.config/emacs/bin/
 set -x PATH $PATH /opt/android-sdk/platform-tools/
 set -x PATH $HOME/scripts $PATH
+set -x PATH $HOME/go/bin $PATH
 
 
-eval (uni-path.py fish) # de-dups paths
 
 # functions
 function kitty-reload
@@ -110,6 +110,8 @@ end
 alias ls="eza -l"
 alias la="ls -a"
 alias pypy=pypy3
+alias vgrind="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s"
+
 #alias ffrec="ffmpeg -f x11grab -i :0.0"
 alias ffrec="ffmpeg -f x11grab -i :0.0 -f alsa -i default"
 
@@ -134,8 +136,9 @@ alias el="emacsclient"
 # dynamic initialization
 fzf --fish | source
 zoxide init --cmd cd fish | source
+#direnv hook fish | source
 #source (/usr/bin/starship init fish --print-full-init | psub)
-source $HOME/.deno/env.fish
+
 # bun
 set -x BUN_INSTALL $HOME/.bun
 set -x PATH $BUN_INSTALL/bin $PATH
@@ -143,6 +146,7 @@ set -x PATH $BUN_INSTALL/bin $PATH
 set -x DOCKER_HOST "unix:///run/user/1000/docker.sock"
 
 function fish_greeting
+
 end
 
 # Start X automatically on login
@@ -156,3 +160,5 @@ if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
+
+eval (uni-path.py fish) # de-dups paths

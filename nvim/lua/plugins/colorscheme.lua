@@ -1,7 +1,28 @@
-return {
-	"https://github.com/vague2k/vague.nvim",
-	--"scottmckendry/cyberdream.nvim",
-	config = function() vim.cmd("colorscheme vague") end
-	--"cross-sniper/complete_darkness.nvim",
-	--config = function() require("complete_darkness").setup() end
+--[[return {
+	"scottmckendry/cyberdream.nvim",
+	lazy = false,
+	priority = 1000,
+	config = function(plugin)
+		vim.cmd("colorscheme cyberdream")
+	end
 }
+]]
+-- return {
+-- 	"navarasu/onedark.nvim",
+-- 	config = function(
+-- 	)
+-- 		require('onedark').setup {
+-- 			style = "deep"
+-- 		}
+-- 		--vim.cmd("colorscheme onedark")
+-- 		require("onedark").load()
+-- 	end
+-- }
+return {}
+--[[return {
+	"cross-sniper/complete_darkness.nvim",
+	config = function(plugin)
+		vim.cmd("colorscheme complete_darkness")
+	end
+}
+]]

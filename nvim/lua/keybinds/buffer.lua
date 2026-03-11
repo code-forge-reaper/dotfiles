@@ -27,3 +27,5 @@ keymap("n", "]d", "LspUI diagnostic next", opts)
 keymap('n', 'b', "Bufferin", opts)
 
 keymap('n', '<leader><space>', "noh<cr>", opts)
+keymap("n", "=", "Telescope find_files", opts)
+keymap("n","<S-b>", "Telescope buffers")

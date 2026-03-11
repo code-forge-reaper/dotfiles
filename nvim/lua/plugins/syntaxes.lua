@@ -1,0 +1,5 @@
+return {
+	{
+		"alaviss/nim.nvim"
+	}
+}

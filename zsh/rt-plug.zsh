@@ -277,8 +277,7 @@ _rt_sync() {
         if [ -d "$current_sync_path/.git" ]; then
             printf " › [%s] %s… " "$type" "$name"
             pushd "$current_sync_path" >/dev/null 2>&1
-            # Try fast-forward only pull
-            if git pull --ff-only --quiet; then
+            if git pull; then
                 echo "ok"
             else
                 echo "failed"

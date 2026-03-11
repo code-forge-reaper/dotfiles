@@ -83,160 +83,170 @@ It uses **Elpaca** as the package manager.
 
 * Package Setup
 #+begin_src emacs-lisp
-;; Enable Elpaca + use-package integration early
-(elpaca elpaca-use-package
-  (elpaca-use-package-mode))
+    ;; Enable Elpaca + use-package integration early
+    (elpaca elpaca-use-package
+      (elpaca-use-package-mode))
 
-;; -------------------------
-;; Editing / Modal bindings
-;; -------------------------
-;; Must set before evil loads
-(setq evil-want-keybinding nil)
+    ;; -------------------------
+    ;; Editing / Modal bindings
+    ;; -------------------------
+    ;; Must set before evil loads
+    (setq evil-want-keybinding nil)
+    (prefer-coding-system 'utf-8)
 
-(use-package evil
-  :ensure t
-  :config
-  (evil-mode 1)
-  (define-key evil-normal-state-map (kbd "f") #'lsp-format-buffer))
+    (use-package evil
+      :ensure t
+      :config
+      (evil-mode 1)
+      (define-key evil-normal-state-map (kbd "f") #'lsp-format-buffer))
 
-(use-package evil-collection
-  :ensure t
-  :after evil
-  :init
-  (evil-collection-init))
+    (use-package evil-collection
+      :ensure t
+      :after evil
+      :init
+      (evil-collection-init))
 
-;; Electric pairs
-(electric-pair-mode 1)
+    ;; Electric pairs
+    (electric-pair-mode 1)
 
-;; -------------------------
-;; UI / Appearance
-;; -------------------------
-(use-package monokai-theme
-  :ensure t
-  :config
-  (load-theme 'monokai t))
+    ;; -------------------------
+    ;; UI / Appearance
+    ;; -------------------------
+    (use-package monokai-theme
+      :ensure t
+      :config
+      (load-theme 'monokai t))
 
-(use-package doom-modeline
-  :ensure t
-  :config
-  (doom-modeline-mode 1))
+    (use-package doom-modeline
+      :ensure t
+      :config
+      (doom-modeline-mode 1))
 
-;; -------------------------
-;; Minibuffer / Completion
-;; -------------------------
-(use-package vertico
-  :ensure t
-  :config
-  (vertico-mode 1))
+    ;; -------------------------
+    ;; Minibuffer / Completion
+    ;; -------------------------
+    (use-package vertico
+      :ensure t
+      :config
+      (vertico-mode 1))
 
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
+    (use-package orderless
+      :ensure t
+      :custom
+      (completion-styles '(orderless basic))
+      (completion-category-defaults nil)
+      (completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package consult
-  :ensure t)
+    (use-package consult
+      :ensure t)
 
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode))
+    (use-package which-key
+      :ensure t
+      :config
+      (which-key-mode))
 
-;; Company for code completion
-(use-package company
-  :ensure t
-  :hook (prog-mode . company-mode))
+    ;; Company for code completion
+    (use-package company
+      :ensure t
+      :hook (prog-mode . company-mode))
 
-;; -------------------------
-;; Project / Workspace
-;; -------------------------
-(use-package perspective
-  :ensure t
-  :custom
-  (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
-  :init
-  (persp-mode 1))
+    ;; -------------------------
+    ;; Project / Workspace
+    ;; -------------------------
+    (use-package perspective
+      :ensure t
+      :custom
+      (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
+      :init
+      (persp-mode 1))
 
-;; -------------------------
-;; Version control / Git
-;; -------------------------
-(use-package transient
-  :ensure t)
+    ;; -------------------------
+    ;; Version control / Git
+    ;; -------------------------
+    (use-package transient
+      :ensure t)
 
-(use-package magit
-  :ensure t)
+    (use-package magit
+      :ensure t)
 
-;; -------------------------
-;; Terminal / File browsing
-;; -------------------------
-(use-package vterm
-  :ensure t)
+    ;; -------------------------
+    ;; Terminal / File browsing
+    ;; -------------------------
+    (use-package vterm
+      :ensure t)
 
-(use-package dirvish
-  :ensure t
-  :config
-  (dirvish-override-dired-mode))
-(global-set-key (kbd "C-x C-d") 'dirvish)
 
-;; -------------------------
-;; Misc helpful packages
-;; -------------------------
-(use-package emacs-everywhere
-  :ensure t)
+    (use-package dirvish
+      :ensure t
+      :config
+      (dirvish-override-dired-mode))
+    (global-set-key (kbd "C-x C-d") 'dirvish)
 
-(use-package simpleclip
-  :ensure t)
-(use-package go-mode
-  :ensure t)
+    ;; -------------------------
+    ;; Misc helpful packages
+    ;; -------------------------
+    (use-package emacs-everywhere
+      :ensure t)
 
-;; -------------------------
-;; Language modes / Tools
-;; -------------------------
-(use-package lua-mode
-  :ensure t)
+    (use-package simpleclip
+      :ensure t)
+    (use-package go-mode
+      :ensure t)
 
-(use-package typescript-mode
-  :ensure t)
+    ;; -------------------------
+    ;; Language modes / Tools
+    ;; -------------------------
+    (use-package lua-mode
+      :ensure t)
+    (use-package nim-mode
+  	:ensure t)
+    (use-package typescript-mode
+      :ensure t)
+    (use-package zig-mode
+      :ensure t)
 
-;; Odin mode from GitHub
-(use-package odin-mode
-  :ensure (:host github :repo "mattt-b/odin-mode")
-  :mode ("\\.odin\\'" . odin-mode))
+    ;; Odin mode from GitHub
+    (use-package odin-mode
+      :ensure (:host github :repo "mattt-b/odin-mode")
+      :mode ("\\.odin\\'" . odin-mode))
 
-;; -------------------------
-;; LSP (language server) and UI
-;; -------------------------
-(use-package lsp-mode
-  :ensure t
-  :commands lsp
-  :hook ((c-mode odin-mode c++-mode lua-mode typescript-mode) . lsp)
-  ;; :init
-  ;; (setq lsp-enable-on-type-formatting nil
-  ;;       lsp-enable-indentation nil
-  ;;       lsp-completion-provider :capf
-  ;;       lsp-prefer-flymake nil)
-  :config
-  (add-to-list 'lsp-language-id-configuration '(c++-mode . "cpp"))
-  (add-to-list 'lsp-language-id-configuration '(c-mode . "c")))
+    ;; -------------------------
+    ;; LSP (language server) and UI
+    ;; -------------------------
+    (use-package lsp-mode
+      :ensure t
+      :commands lsp
+      :hook ((c-mode odin-mode c++-mode lua-mode typescript-mode) . lsp)
+      :init
+      (setq
+       lsp-enable-on-type-formatting nil
+      ;; lsp-enable-indentation nil
+      ;; lsp-completion-provider :capf
+      ;; lsp-prefer-flymake nil
+      )
+      :config
+      (add-to-list 'lsp-language-id-configuration '(c++-mode . "cpp"))
+      (add-to-list 'lsp-language-id-configuration '(c-mode . "c")))
 
-(setq lsp-inlay-hint-enable t)
-(setq lsp-enable-folders-blacklist nil)
+    (setq lsp-inlay-hint-enable t)
+    (setq lsp-enable-folders-blacklist nil)
 
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :config
-  (setq lsp-ui-doc-enable t
-        lsp-enable-symbol-highlighting t))
+    (use-package lsp-ui
+      :ensure t
+      :after lsp-mode
+      :hook (lsp-mode . lsp-ui-mode)
+      :config
+      (setq lsp-ui-doc-enable t
+            lsp-enable-symbol-highlighting t))
 
-;; -------------------------
-;; Buffer management
-;; -------------------------
-(add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
-(global-set-key (kbd "C-x C-b") 'consult-buffer)
+    ;; -------------------------
+    ;; Buffer management
+    ;; -------------------------
+    (add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
+    (global-set-key (kbd "C-x C-b") 'consult-buffer)
+    ;(add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
+
+    (setq evil-undo-system 'undo-redo)
 
 #+end_src
 
