@@ -26,6 +26,4 @@ if vim.g.neoray then
 end
 vim.opt.clipboard = "unnamedplus"
 
-require "complete_darkness".setup()
-
---vim.cmd("colorscheme complete_darkness")
+require "complete_darkness".setup({transparent=true})

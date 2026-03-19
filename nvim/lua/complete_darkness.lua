@@ -1,127 +1,158 @@
 -- complete_darkness_neon.lua
--- Neon, high-contrast colorscheme for Neovim
--- Usage:
---   require("complete_darkness_neon").setup({ transparent = true })
--- or put in colors/ and use :colorscheme complete_darkness_neon
+-- Neon high-contrast colorscheme for Neovim
 
 local M = {}
 
 function M.setup(opts)
-	opts = opts or {}
-	local transparent = opts.transparent or false
+  opts = opts or {}
+  local transparent = opts.transparent or false
 
-	-- Palette (neon-focused, high contrast)
-	local palette = {
-		bg          = transparent and "NONE" or "#0b0f16", -- deep near-black
-		fg          = "#e6f1ff",                    -- soft white for long reads
-		muted       = "#6b7280",                    -- comments / secondary text
-		gray_dim    = "#2b2f36",
+  vim.o.background = "dark"
+  vim.o.termguicolors = true
+  vim.g.colors_name = "complete_darkness_neon"
 
-		neon_pink   = "#ff4dff", -- keywords / important
-		neon_cyan   = "#00e5ff", -- functions / calls
-		neon_yellow = "#ffd900", -- strings / literals
-		neon_green  = "#7cff5f", -- success / tags
-		neon_orange = "#ff8c42", -- warnings / numbers
-		neon_blue   = "#5aa0ff", -- types / identifiers
-		neon_violet = "#b58cff", -- preproc / meta
-		error_red   = "#ff5370", -- errors
-	}
+  vim.cmd("hi clear")
+  if vim.fn.exists("syntax_on") then
+    vim.cmd("syntax reset")
+  end
 
-	-- Basic settings
-	vim.o.background = "dark"
-	vim.o.termguicolors = true
-	vim.g.colors_name = "complete_darkness_neon"
+  -------------------------------------------------
+  -- Palette
+  -------------------------------------------------
 
-	-- helper: set highlight safely
-	local function hl(group, opts)
-		-- opts: { fg = "#hex", bg = "#hex" or "NONE", bold = bool, italic = bool, underline = bool, default = bool }
-		vim.api.nvim_set_hl(0, group, opts)
-	end
+  local c = {
+    bg      = transparent and "NONE" or "#0b0f16",
+    bg_alt  = "#07101a",
+    bg_dim  = "#2b2f36",
 
-	-- Core UI
-	hl("Normal", { fg = palette.fg, bg = palette.bg })
-	hl("CursorLine", { bg = palette.gray_dim })
-	hl("CursorLineNr", { fg = palette.neon_cyan, bg = palette.gray_dim, bold = true })
-	hl("LineNr", { fg = "#3d4451", bg = palette.bg })
-	hl("Visual", { bg = "#183040" })
-	hl("Search", { fg = palette.bg, bg = palette.neon_yellow })
-	hl("IncSearch", { fg = palette.bg, bg = palette.neon_orange })
-	hl("MatchParen", { bg = "#14222a" })
-	hl("Pmenu", { fg = palette.fg, bg = "#07101a" })
-	hl("PmenuSel", { fg = palette.bg, bg = palette.neon_cyan, bold = true })
-	hl("StatusLine", { fg = palette.fg, bg = "#07101a" })
-	hl("StatusLineNC", { fg = "#7a7f88", bg = "#0a0f14" })
-	hl("Title", { fg = palette.neon_pink, bold = true })
-	hl("Type", { fg = palette.neon_blue })
-	hl("Directory", { fg = palette.neon_cyan })
-	hl("FloatBorder", { fg = palette.neon_violet })
-	hl("NormalFloat", { fg = palette.fg, bg = "#07101a" })
-	hl("Folded", { fg = "#9aa4b2", bg = "#07101a" })
-	hl("Cursor", { fg = palette.bg, bg = palette.fg })
+    fg      = "#e6f1ff",
+    muted   = "#6b7280",
 
-	-- Basic syntax
-	hl("Comment", { fg = palette.muted, italic = true })
-	hl("Constant", { fg = palette.neon_yellow })
-	hl("String", { fg = palette.neon_yellow })
-	hl("Character", { fg = palette.neon_yellow })
-	hl("Number", { fg = palette.neon_orange })
-	hl("Boolean", { fg = palette.neon_orange, bold = true })
-	hl("Identifier", { fg = palette.neon_blue })
-	hl("Function", { fg = palette.neon_cyan })
-	hl("Statement", { fg = palette.neon_pink })
-	hl("Conditional", { fg = palette.neon_pink })
-	hl("Repeat", { fg = palette.neon_pink })
-	hl("Operator", { fg = palette.fg })
-	hl("Keyword", { fg = palette.neon_pink, bold = true })
-	hl("Delimiter", { fg = palette.fg })
-	hl("Special", { fg = palette.neon_violet })
-	hl("Todo", { fg = palette.neon_orange, bg = palette.bg, bold = true })
+    pink    = "#ff4dff",
+    cyan    = "#00e5ff",
+    yellow  = "#ffd900",
+    green   = "#7cff5f",
+    orange  = "#ff8c42",
+    blue    = "#5aa0ff",
+    violet  = "#b58cff",
+    red     = "#ff5370",
+  }
 
-	-- LSP diagnostics
-	hl("DiagnosticError", { fg = palette.error_red })
-	hl("DiagnosticWarn", { fg = palette.neon_orange })
-	hl("DiagnosticInfo", { fg = palette.neon_cyan })
-	hl("DiagnosticHint", { fg = palette.neon_green })
-	hl("DiagnosticVirtualTextError", { fg = palette.error_red, bg = "NONE" })
-	hl("DiagnosticVirtualTextWarn", { fg = palette.neon_orange, bg = "NONE" })
-	hl("DiagnosticVirtualTextInfo", { fg = palette.neon_cyan, bg = "NONE" })
-	hl("DiagnosticVirtualTextHint", { fg = palette.neon_green, bg = "NONE" })
+  -------------------------------------------------
+  -- helpers
+  -------------------------------------------------
 
-	-- Treesitter (common captures)
-	hl("@comment", { fg = palette.muted, italic = true })
-	hl("@constant", { fg = palette.neon_yellow })
-	hl("@string", { fg = palette.neon_yellow })
-	hl("@number", { fg = palette.neon_orange })
-	hl("@boolean", { fg = palette.neon_orange })
-	hl("@function", { fg = palette.neon_cyan })
-	hl("@function.call", { fg = palette.neon_cyan })
-	hl("@keyword", { fg = palette.neon_pink, bold = true })
-	hl("@keyword.function", { fg = palette.neon_pink, bold = true })
-	hl("@variable", { fg = palette.fg })
-	hl("@property", { fg = palette.neon_blue })
-	hl("@type", { fg = palette.neon_blue })
-	hl("@parameter", { fg = "#cbd5e1" })
-	hl("@constant.builtin", { fg = palette.neon_violet })
-	hl("@punctuation.bracket", { fg = palette.fg })
-	hl("@text.note", { fg = palette.neon_green })
-	hl("@tag", { fg = palette.neon_green })
-	hl("@namespace", { fg = palette.neon_violet })
-	hl("@preproc", { fg = palette.neon_violet, bold = true })
+  local function hl(group, spec)
+    vim.api.nvim_set_hl(0, group, spec)
+  end
 
-	-- Git signs / diff
-	hl("DiffAdd", { fg = palette.neon_green })
-	hl("DiffChange", { fg = palette.neon_cyan })
-	hl("DiffDelete", { fg = palette.error_red })
-	hl("DiffText", { fg = palette.neon_yellow })
+  local function link(a, b)
+    hl(a, { link = b })
+  end
 
-	-- Quickfix / Telescope / plugin safe defaults
-	hl("TSSelection", { bg = "#13323a" })
-	hl("TelescopePromptPrefix", { fg = palette.neon_cyan })
-	hl("TelescopeSelection", { fg = palette.fg, bg = "#08202a" })
+  -------------------------------------------------
+  -- UI
+  -------------------------------------------------
 
-	-- Make sure cursorline highlight links don't hide colors
-	-- (some plugins link these groups; override aggressively)
-	vim.cmd("highlight! link WhichKey Key") -- example; remove if you dislike
+  hl("Normal",       { fg = c.fg, bg = c.bg })
+  hl("CursorLine",   { bg = c.bg_dim })
+  hl("CursorLineNr", { fg = c.cyan, bold = true })
+  hl("LineNr",       { fg = "#3d4451" })
+
+  hl("Visual",       { bg = "#183040" })
+
+  hl("Search",       { fg = c.bg, bg = c.yellow })
+  hl("IncSearch",    { fg = c.bg, bg = c.orange })
+
+  hl("MatchParen",   { bg = "#14222a" })
+
+  hl("StatusLine",   { fg = c.fg, bg = c.bg_alt })
+  hl("StatusLineNC", { fg = c.muted, bg = c.bg_alt })
+
+  hl("Pmenu",        { fg = c.fg, bg = c.bg_alt })
+  hl("PmenuSel",     { fg = c.bg, bg = c.cyan, bold = true })
+
+  hl("FloatBorder",  { fg = c.violet })
+  hl("NormalFloat",  { fg = c.fg, bg = c.bg_alt })
+
+  hl("Cursor",       { fg = c.bg, bg = c.fg })
+
+  -------------------------------------------------
+  -- Syntax
+  -------------------------------------------------
+
+  hl("Comment",   { fg = c.muted, italic = true })
+
+  hl("Constant",  { fg = c.yellow })
+  hl("String",    { fg = c.yellow })
+  hl("Number",    { fg = c.orange })
+  hl("Boolean",   { fg = c.orange, bold = true })
+
+  hl("Identifier",{ fg = c.blue })
+  hl("Function",  { fg = c.cyan })
+
+  hl("Statement", { fg = c.pink })
+  hl("Keyword",   { fg = c.pink, bold = true })
+
+  hl("Operator",  { fg = c.fg })
+  hl("Delimiter", { fg = c.fg })
+
+  hl("Special",   { fg = c.violet })
+  hl("Type",      { fg = c.blue })
+
+  hl("Todo",      { fg = c.orange, bold = true })
+
+  -------------------------------------------------
+  -- Diagnostics
+  -------------------------------------------------
+
+  hl("DiagnosticError", { fg = c.red })
+  hl("DiagnosticWarn",  { fg = c.orange })
+  hl("DiagnosticInfo",  { fg = c.cyan })
+  hl("DiagnosticHint",  { fg = c.green })
+
+  hl("DiagnosticUnderlineError", { undercurl = true, sp = c.red })
+  hl("DiagnosticUnderlineWarn",  { undercurl = true, sp = c.orange })
+  hl("DiagnosticUnderlineInfo",  { undercurl = true, sp = c.cyan })
+  hl("DiagnosticUnderlineHint",  { undercurl = true, sp = c.green })
+
+  -------------------------------------------------
+  -- Treesitter
+  -------------------------------------------------
+
+  link("@comment", "Comment")
+
+  hl("@string",   { fg = c.yellow })
+  hl("@number",   { fg = c.orange })
+  hl("@boolean",  { fg = c.orange })
+
+  hl("@function", { fg = c.cyan })
+  hl("@keyword",  { fg = c.pink, bold = true })
+
+  hl("@variable", { fg = c.fg })
+  hl("@property", { fg = c.blue })
+  hl("@type",     { fg = c.blue })
+  hl("@parameter",{ fg = "#cbd5e1" })
+
+  hl("@tag",      { fg = c.green })
+  hl("@namespace",{ fg = c.violet })
+  hl("@preproc",  { fg = c.violet, bold = true })
+
+  -------------------------------------------------
+  -- Diff / Git
+  -------------------------------------------------
+  hl("NotifyBackground", {bg=c.cyan, fg=c.red})
+
+  hl("DiffAdd",    { fg = c.green })
+  hl("DiffChange", { fg = c.cyan })
+  hl("DiffDelete", { fg = c.red })
+  hl("DiffText",   { fg = c.yellow })
+
+  -------------------------------------------------
+  -- Telescope
+  -------------------------------------------------
+  hl("TelescopePromptPrefix", { fg = c.cyan })
+  hl("TelescopeSelection",    { bg = "#08202a" })
 end
 
 return M

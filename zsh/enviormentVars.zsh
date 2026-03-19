@@ -1,11 +1,12 @@
 # Editor configuration
-export BROWSER=helium-browser
+export BROWSER=brave
 
 export EDITOR="nvim"
 export MANPAGER="nvim +Man!"
 
 # Odin programming language root directory
 export ODIN_ROOT="$HOME/git/odin/"
+export TWEEGO_PATH="$HOME/Downloads/storyformats/"
 
 # Paths
 #export PATH="$HOME/.rbenv/shims:$PATH"

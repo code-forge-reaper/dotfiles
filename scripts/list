@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+info() {
+  printf "[INFO] %s\n" "$*" >&2
+}
+
+error() {
+  printf "[ERROR] %s\n" "$*" >&2
+}
+
+usage() {
+  printf 'usage: %s <archive-file>\n' "$(basename "$0")" >&2
+  exit 2
+}
+
+main() {
+  if [[ $# -lt 1 ]]; then
+    usage
+  fi
+
+  file="$1"
+
+  info "Input archive: $file"
+
+  if [[ ! -f "$file" ]]; then
+    error "File '$file' does not exist or is not a regular file."
+    exit 1
+  fi
+
+  if [[ ! -r "$file" ]]; then
+    error "File '$file' is not readable."
+    exit 1
+  fi
+
+  if command -v realpath >/dev/null 2>&1; then
+    file="$(realpath "$file")"
+    info "Resolved absolute path: $file"
+  else
+    info "realpath not available; using relative path."
+  fi
+
+  # 1. bsdtar (best universal handler)
+  if command -v bsdtar >/dev/null 2>&1; then
+    info "Listing archive with bsdtar..."
+    bsdtar -t -f "$file"
+    exit 0
+  fi
+
+  # 2. GNU tar
+  if command -v tar >/dev/null 2>&1; then
+    info "Checking if GNU tar can list the archive..."
+    if tar -tf "$file" >/dev/null 2>&1; then
+      info "Listing archive with GNU tar..."
+      tar -tf "$file"
+      exit 0
+    else
+      info "GNU tar could not read the archive; trying next method."
+    fi
+  fi
+
+  # 3. unzip
+  if command -v unzip >/dev/null 2>&1 && [[ "${file,,}" == *.zip ]]; then
+    info "Listing zip archive..."
+    unzip -l "$file"
+    exit 0
+  fi
+
+  # 4. 7z fallback
+  if command -v 7z >/dev/null 2>&1 || command -v 7za >/dev/null 2>&1; then
+    cmd="$(command -v 7z 2>/dev/null || command -v 7za)"
+    info "Listing archive with $cmd..."
+    "$cmd" l "$file"
+    exit 0
+  fi
+
+  error "No suitable archive lister found (install bsdtar, tar, unzip or p7zip)."
+  exit 3
+}
+
+main "$@"

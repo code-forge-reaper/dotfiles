@@ -18,7 +18,6 @@
 -- 		require("onedark").load()
 -- 	end
 -- }
-return {}
 --[[return {
 	"cross-sniper/complete_darkness.nvim",
 	config = function(plugin)
@@ -26,3 +25,5 @@ return {}
 	end
 }
 ]]
+
+return {}
