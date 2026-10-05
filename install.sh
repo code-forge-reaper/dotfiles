@@ -25,23 +25,24 @@ link(){
 
 #set -ex
 
-#PACKAGES="alacritty rofi nitrogen picom dunst mpd emacs nodejs npm clang"
-DIR="$(pwd)"
-#echo $DIR
-#yay -S $PACKAGES --needed
+DIR="$(pwd)/confs"
+
+/usr/bin/sudo cp "$DIR/doas.conf" /etc/doas.conf
+/usr/bin/sudo ln -sf "$DIR/.touchpad.conf" "/etc/X11/xorg.conf.d/300-touchpad.conf"
+
 link "$DIR/.tmux.conf" "$HOME/.tmux.conf"
 link "$DIR/.vimrc" "$HOME/.vimrc"
 link "$DIR/i3" "$HOME/.config/i3"
 link "$DIR/nvim" "$HOME/.config/nvim"
 link "$DIR/zsh" "$HOME/.config/zsh"
 link "$DIR/emacs" "$HOME/.config/emacs"
+
 link "$DIR/scripts" "$HOME/scripts"
 link "$DIR/fish" "$HOME/.config/fish"
 link "$DIR/awesome" "$HOME/.config/awesome"
-link "$DIR/puppet" "$HOME/scripts/puppet"
+link "$DIR/quickshell" "$HOME/.config/quickshell"
+link "$DIR/sway" "$HOME/.config/sway"
 
 link "$DIR/.zshrc" "$HOME/.zshrc"
 link "$DIR/.alacritty.toml" "$HOME/.alacritty.toml"
-link "$DIR/starship.toml" "$HOME/.config/starship.toml"
-
-sudo ln -sf "$DIR/.touchpad.conf" "/etc/X11/xorg.conf.d/300-touchpad.conf"
+link "$DIR/.gtools_conf.json" "$HOME/.gtools_conf.json"

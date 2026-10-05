@@ -1,0 +1,7 @@
+(setq package-enable-at-startup nil)
+(setq straight-use-package-by-default t)
+;; Basic UI Cleanup (do this early so startup is minimal)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(setq inhibit-startup-screen t)

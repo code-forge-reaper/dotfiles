@@ -1,0 +1,473 @@
+#!/usr/bin/env python
+import sys
+import json
+import os
+import shlex
+from pprint import pprint
+from typing import TypedDict
+
+filePath = os.getenv("G_PATH", "~/.gtools_conf.json")
+filePath = os.path.expanduser(os.path.expandvars(filePath))
+
+actions = {}
+mapNames = {}
+helpStrings = {}
+"""
+the reason i decided to make gtools/pather(what i named it originally)
+is because of multiple shells having 1001 ways to define stuff.
+
+pather came from the fact i needed it to handle adding and removing paths from PATH,
+and gtools came because of everything else, global tools
+"""
+
+
+def Action(name, *aliases, helpStr=""):
+    def _(fn):
+        actions[name] = fn.__name__
+        if helpStr:
+            helpStrings[fn.__name__] = helpStr
+        mapNames[fn.__name__] = [name]
+        for _name in aliases:
+            actions[_name] = fn.__name__
+            mapNames[fn.__name__].append(_name)
+            if helpStr:
+                helpStrings[_name] = helpStr
+        return fn
+
+    return _
+
+
+def appendOnce(arr: list[str], v):
+    if v not in arr:
+        arr.append(v)
+
+
+gens = {}
+
+
+def generator(*names):
+    def _(fn):
+        for name in names:
+            gens[name] = fn
+        return fn
+
+    return _
+
+
+def uniPath(l):
+    f = []
+    for ff in l:
+        appendOnce(f, ff)
+    return f
+
+def _fuzzy_pick_plain(items, prompt):
+    """Fallback for non-tty stdin/stdout (e.g. piped, CI)."""
+    for i, item in enumerate(items):
+        print(f"  [{i}] {item}", file=sys.stderr)
+    try:
+        raw = input(prompt).strip()
+    except (EOFError, KeyboardInterrupt):
+        raise KeyboardInterrupt
+    if raw.isdigit() and 0 <= int(raw) < len(items):
+        return items[int(raw)]
+    if raw in items:
+        return raw
+    matches = [x for x in items if raw in x]
+    if len(matches) == 1:
+        return matches[0]
+    raise KeyboardInterrupt
+
+
+def _fuzzy_pick_curses(items, prompt):
+    import curses
+
+    def _subseq(query, item):
+        """True if `query` is a subsequence of `item` (case-insensitive)."""
+        q = query.lower()
+        s = item.lower()
+        qi = 0
+        for ch in s:
+            if qi < len(q) and ch == q[qi]:
+                qi += 1
+                if qi == len(q):
+                    return True
+        return qi == len(q)
+
+    def _run(stdscr):
+        curses.curs_set(0)
+        stdscr.keypad(True)
+        query = ""
+        cursor = 0
+        offset = 0
+
+        while True:
+            filtered = [it for it in items if not query or _subseq(query, it)]
+            if not filtered:
+                cursor = 0
+                offset = 0
+            else:
+                cursor = min(cursor, len(filtered) - 1)
+
+            h, w = stdscr.getmaxyx()
+            list_h = max(1, h - 2)
+            if cursor < offset:
+                offset = cursor
+            if cursor >= offset + list_h:
+                offset = cursor - list_h + 1
+
+            stdscr.erase()
+            # prompt / query line
+            stdscr.addnstr(0, 0, prompt + query, max(0, w - 1), curses.A_BOLD)
+
+            # item list
+            for i in range(list_h):
+                idx = offset + i
+                if idx >= len(filtered):
+                    break
+                item = filtered[idx]
+                display = item if len(item) <= w - 1 else item[: max(0, w - 2)] + "…"
+                attr = curses.A_REVERSE if idx == cursor else curses.A_NORMAL
+                try:
+                    stdscr.addnstr(i + 1, 0, display, max(0, w - 1), attr)
+                except curses.error:
+                    # writing to the bottom-right cell raises; safe to ignore
+                    pass
+
+            # status bar
+            try:
+                stdscr.addnstr(
+                    h - 1, 0, f"{len(filtered)}/{len(items)}",
+                    max(0, w - 1), curses.A_DIM,
+                )
+            except curses.error:
+                pass
+            stdscr.refresh()
+
+            ch = stdscr.getch()
+
+            if ch in (curses.KEY_ENTER, 10, 13):
+                return filtered[cursor] if filtered else None
+            if ch == 27:  # ESC
+                return None
+            if ch == 3:  # Ctrl-C
+                raise KeyboardInterrupt
+            if ch == curses.KEY_UP:
+                cursor = max(0, cursor - 1)
+            elif ch == curses.KEY_DOWN:
+                cursor = min(len(filtered) - 1, cursor + 1) if filtered else 0
+            elif ch == curses.KEY_PPAGE:
+                cursor = max(0, cursor - list_h)
+            elif ch == curses.KEY_NPAGE:
+                cursor = min(len(filtered) - 1, cursor + list_h) if filtered else 0
+            elif ch in (curses.KEY_BACKSPACE, 127, 8):
+                query = query[:-1]
+                cursor = 0
+                offset = 0
+            elif ch == 21:  # Ctrl-U: clear query
+                query = ""
+                cursor = 0
+                offset = 0
+            elif 32 <= ch < 127:
+                query += chr(ch)
+                cursor = 0
+                offset = 0
+
+    return curses.wrapper(_run)
+
+
+def fuzzySelect(items, prompt="select> "):
+    """Curses-based fuzzy picker.
+
+    - Type to filter (case-insensitive subsequence match)
+    - Up/Down (or PgUp/PgDn) to move, Enter to accept
+    - Backspace to delete, Ctrl-U to clear, ESC or Ctrl-C to cancel
+    Returns the selected item, or raises KeyboardInterrupt on cancel.
+    Falls back to a numbered prompt if curses/tty is unavailable.
+    """
+    items = list(items)
+    if not items:
+        return None
+    if len(items) == 1:
+        return items[0]
+
+    use_curses = True
+    try:
+        import curses  # noqa: F401
+    except ImportError:
+        use_curses = False
+    if use_curses and not (sys.stdin.isatty() and sys.stdout.isatty()):
+        use_curses = False
+
+    if use_curses:
+        result = _fuzzy_pick_curses(items, prompt)
+    else:
+        result = _fuzzy_pick_plain(items, prompt)
+
+    if result is None:
+        raise KeyboardInterrupt
+    return result
+
+class Generator:
+    def __init__(self, shell, data: ConfigData):
+        self.shell = shell
+        self.data = data
+        self.data["path"].append("$PATH")
+        self.previousPath = os.environ.get("PATH").split(":")
+
+    def expandPath(self):
+        path = []
+
+        for item in uniPath(self.data["path"]):
+            if item == "$PATH":
+                path.extend(self.previousPath)
+            else:
+                path.append(item)
+
+        return path
+
+    @generator("bash", "zsh")
+    def gen_bash(self, code):
+        path = self.expandPath()
+        code.append("export PATH=" + ":".join(x for x in path))
+
+        for name, val in self.data["env"].items():
+            code.append(f'export {name.upper()}="{val}"')
+
+        for name, val in self.data["alias"].items():
+            code.append(f"alias {name}={shlex.quote(val)}")
+
+        for cmd in self.data["autorun"]:
+            code.append(f'eval "$({cmd})"')
+
+    @generator("fish")
+    def gen_fish(self, code):
+        path = self.expandPath()
+        code.append("set -x PATH " + " ".join(x for x in path))
+
+        for name, val in self.data["env"].items():
+            code.append(f'set -x {name.upper()} "{val}"')
+
+        for name, val in self.data["alias"].items():
+            code.append(f"alias {name} {shlex.quote(val)}")
+
+        for cmd in self.data["autorun"]:
+            code.append(f'eval "$({cmd})"')
+
+    def gen(self):
+        code = []
+        g = gens.get(self.shell, None)
+        if g == None:
+            raise ValueError(
+                "GTools can't generate for this shell, but can for these: {}".format(
+                    ", ".join((gens.keys()))
+                )
+            )
+        g(self, code)
+        return code
+
+
+class ConfigData(TypedDict):
+    env: dict[str, str]
+    path: list[str]
+    alias: dict[str, str]
+    autorun: list[str]
+    version: int  # this is the config API version, not the script version
+
+
+class GTools:
+    def __init__(self) -> None:
+        # Default data
+        default_data: ConfigData = {
+            "env": {},
+            "path": ["/usr/local/bin", "/usr/bin", "/bin", "/usr/local/sbin"],
+            "alias": {},
+            "autorun": [],
+            "version": 5,  # will be used eventually
+        }
+        if os.path.isfile(filePath):
+            with open(filePath) as f:
+                loaded = json.load(f)
+                # Merge with defaults (preserve other keys if any, but we only use env and path)
+                self.data: ConfigData = {
+                    "env": loaded.get("env", default_data["env"]),
+                    "path": loaded.get("path", default_data["path"]),
+                    "alias": loaded.get("alias", default_data["alias"]),
+                    "autorun": loaded.get("autorun", default_data["autorun"]),
+                    "version": loaded.get("version", default_data["version"]),
+                }
+        else:
+            print(
+                f"[gtools]: warning: config file does not exist: {filePath}",
+                file=sys.stderr,
+            )
+            print(
+                f"[gtools]: default data will be used: {default_data}", file=sys.stderr
+            )
+            self.data = default_data
+        v = []
+        for var in self.data["path"]:
+            appendOnce(v, var)
+        self.data["path"] = v
+        if self.data["version"] < default_data["version"]:
+            self.convertConfig(default_data)
+            self.data["version"] = default_data["version"]
+
+    def convertConfig(self, defaultData):
+        pass
+
+    @Action(
+        "Help",
+        "h",
+        "help",
+        helpStr="prints help of all commands, or details for a specific command",
+    )
+    def help(self, what=""):
+        if what and what in helpStrings:
+            # Show help for the given alias/command
+            print(f"{what}: {helpStrings[what]}")
+            return
+
+        # If no specific command or unknown, show all commands with their aliases
+        print("Available commands:")
+        for func_name, aliases in mapNames.items():
+            # aliases is a list; first is primary, rest are aliases
+            alias_str = ", ".join(aliases)
+            help_txt = helpStrings.get(func_name, "")
+            print(f"  {func_name} (aliases: {alias_str}) - {help_txt}")
+
+    @Action(
+        "Add",
+        "add",
+        "a",
+        helpStr="adds something to env or path, see help for examples",
+    )
+    def add(self, section, *data):
+        match section:
+            case "env":
+                if len(data) < 2:
+                    raise ValueError("for env, need name and value")
+                name, value = data[0], data[1]
+                self.data["env"][name] = value
+            case "path":
+                for value in data:
+                    value = os.path.expanduser(os.path.expandvars(value))
+                    appendOnce(self.data["path"], value)
+            case "autorun":
+                for value in data:
+                    appendOnce(self.data["autorun"], value)
+            case "alias":
+                if len(data) < 2:
+                    raise ValueError("for alias, need name and value")
+                name, value = data[0], data[1]
+                self.data["alias"][name] = value
+            case _:
+                raise ValueError(f"this is not supported: {section}")
+        self.write()
+        self.warnShell()
+
+    def warnShell(self):
+        if not "GTOOLS_SILENT" in os.environ:
+            print("you may need to restart your shell")
+
+    @Action(
+        "Dump",
+        "dump",
+        "d",
+        "display",
+        "list",
+        "show",
+        helpStr="dumps your current configuration\n"
+        + "   ^- accepts an argument: which section to dump"
+        + "   ^- as well as the key inside it: gtools d [section] [key]",
+    )
+    def dump(self, what: str | None = None, val: str | None = None):
+        if not what:
+            pprint(self.data)
+        else:
+            if val:
+                print(self.data[what][val])
+            else:
+                pprint(self.data[what])
+
+    @Action(
+        "Remove", "remove", "r", helpStr="removes a thing from the section you passed"
+    )
+    def remove(self, section, abs: str | None = None):
+        match section:
+            case "env":
+                try:
+                    if abs:
+                        id = abs
+                    else:
+                        id = fuzzySelect(self.data["env"])
+                    del self.data["env"][id]
+                except KeyboardInterrupt:
+                    pass
+            case "alias":
+                try:
+                    if abs:
+                        id = abs
+                    else:
+                        id = fuzzySelect(self.data["alias"])
+                    del self.data["alias"][id]
+                except KeyboardInterrupt:
+                    pass
+            case "autorun":
+                try:
+                    if abs:
+                        id = abs
+                    else:
+                        id = fuzzySelect(self.data["autorun"])
+                    del self.data["autorun"][id]
+                except KeyboardInterrupt:
+                    pass
+            case "path":
+                try:
+                    if abs:
+                        id = abs
+                    else:
+                        id = fuzzySelect(self.data["path"])
+                    value = os.path.expanduser(os.path.expandvars(id))
+                    self.data["path"].remove(value)
+                except KeyboardInterrupt:
+                    pass
+        self.write()
+        self.warnShell()
+
+    @Action(
+        "Gen",
+        "g",
+        "generate",
+        "init",
+        helpStr="generates init code for shells\n"
+        + "   ^- required argument: the shell name",
+    )
+    def generate(self, shell):
+        print("\n".join(Generator(shell, self.data).gen()).replace("%SHELL%", shell))
+
+    @Action(
+        "write",
+        "w",
+        helpStr=f"writes to {filePath}\n"
+        + "   ^- (recommended if you don't have a config file/want to migrate one)",
+    )
+    def write(self):
+        # Write with indentation for readability
+        with open(filePath, "w") as f:
+            json.dump(self.data, f, indent=2)
+
+
+# --- Argument parsing ---
+args = sys.argv[1:]  # drop script name
+if not args:
+    raise ValueError("Expected an action (e.g., add, help)")
+
+what = args[0]  # first argument is the action
+rest = args[1:]  # remaining are arguments for that action
+
+act = actions.get(what)
+if not act:
+    raise ValueError(f"action '{what}' is not a thing")
+
+g = GTools()
+getattr(g, act)(*rest)

@@ -1,0 +1,57 @@
+{
+  "env": {
+    "EDITOR": "nvim",
+    "FONTCONFIG_PATH": "/etc/fonts",
+    "GIT_DISCOVERY_ACROSS_FILESYSTEM": "1",
+    "HOMEBREW_AUTO_UPDATE_SECS": "86400",
+    "HOMEBREW_NO_INSTALL_CLEANUP": "1",
+    "MANPAGER": "nvim +Man!",
+    "MYNVIMRC": "$HOME/.config/nvim/init.lua",
+    "MYVIMRC": "$HOME/.vimrc",
+    "ODIN_ROOT": "/home/cross/git/odin",
+    "TWEEGO_PATH": "$HOME/Downloads/tweego/storyformats",
+    "FZF_CTRL_T_OPTS": "--preview 'ccat {} | head --lines 40'"
+  },
+  "path": [
+    "$HOME/.config/emacs/bin",
+    "/opt/brew/opt/pod2man/bin",
+    "/opt/brew/bin",
+    "$HOME/.ghcup/bin",
+    "~/.local/bin/",
+    "~/.config/emacs/bin/",
+    "$HOME/scripts",
+    "$HOME/bin",
+    "$HOME/go/bin",
+    "$HOME/git/tic-80/build/bin",
+    "$HOMEBREW_PREFIX/lib/ruby/gems/4.0.5/bin",
+    "$PATH"
+  ],
+  "alias": {
+    "..": "cd ..",
+    "ec": "emacsclient -c",
+    "edit": "$EDITOR",
+    "el": "emacsclient",
+    "ffrec": "ffmpeg -f x11grab -i :0.0 -f alsa -i default",
+    "gas": "git add .; git status --short",
+    "gcg": "git config --global",
+    "la": "ls -a",
+    "ncm": "ncmpcpp",
+    "pa": "gtools a",
+    "pypy": "pypy3",
+    "tree": "tree -C",
+    "vgrind": "valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes -s",
+    "gsd": "git stash ; git stash drop",
+    "wl": "wc -c",
+    "enable-usb-net": "adb shell svc usb setFunctions rndis",
+    "cat": "ccat",
+    "ls": "g -F"
+  },
+  "autorun": [
+    "/home/linuxbrew/.linuxbrew/bin/brew shellenv %SHELL%",
+    "uni-path.py %SHELL%",
+    "fzf --%SHELL%",
+    "zoxide init --cmd cd %SHELL%",
+    "cheat --completion %SHELL%"
+  ],
+  "version": 5
+}

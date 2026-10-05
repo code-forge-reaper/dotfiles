@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+"""Walk a directory tree and print matching files as Markdown code blocks."""
+
+from __future__ import annotations
+
+import argparse
+import os
+import re
+import sys
+from pathlib import Path
+from typing import List, Pattern
+
+
+def compile_regex(pattern: str, label: str) -> Pattern[str]:
+    try:
+        return re.compile(pattern)
+    except re.error as exc:
+        raise SystemExit(f"Invalid {label} regex {pattern!r}: {exc}")
+
+
+def is_ignored(name: str, full_path: Path, ignore_patterns: List[Pattern[str]]) -> bool:
+    return any(p.search(name) or p.search(str(full_path)) for p in ignore_patterns)
+
+
+def count_lines(text: str) -> int:
+    if not text:
+        return 0
+    return text.count("\n") + (0 if text.endswith("\n") else 1)
+
+
+def make_fence(text: str) -> str:
+    """Return a Markdown code fence longer than any backtick run in text."""
+    fence = "```"
+    while fence in text:
+        fence += "`"
+    return fence
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Print files matching REGEX under FOLDER as Markdown code blocks."
+    )
+    parser.add_argument("folder", type=Path, help="Root directory to walk")
+    parser.add_argument("regex", help="Regular expression to match filenames")
+    parser.add_argument(
+        "-i",
+        "--ignore",
+        action="append",
+        default=[],
+        metavar="REGEX",
+        help="Regex for paths to ignore; can be repeated. Matches basename or full path.",
+    )
+    parser.add_argument(
+        "-s", "--size-only", action="store_true", help="only output size, not contents"
+    )
+    parser.add_argument(
+        "-v",
+        "--invert-match",
+        action="store_true",
+        help="Print files that do not match REGEX",
+    )
+    parser.add_argument(
+        "--max-size",
+        type=int,
+        metavar="BYTES",
+        help="Skip files larger than this many bytes",
+    )
+    parser.add_argument(
+        "-0",
+        "--null",
+        action="store_true",
+        help="Use NUL separators between records",
+    )
+    args = parser.parse_args()
+
+    root = args.folder.expanduser()
+    if not root.exists():
+        parser.error(f"folder does not exist: {root}")
+    if not root.is_dir():
+        parser.error(f"not a directory: {root}")
+
+    filename_re = compile_regex(args.regex, "filename")
+    ignore_patterns = [compile_regex(pattern, "ignore") for pattern in args.ignore]
+
+    separator = "\0" if args.null else "\n"
+
+    for dirpath, dirnames, filenames in os.walk(root):
+        current_dir = Path(dirpath)
+
+        # Prune ignored directories before os.walk descends into them.
+        kept_dirs = []
+        for d in dirnames:
+            full = current_dir / d
+            if not is_ignored(d, full, ignore_patterns):
+                kept_dirs.append(d)
+        dirnames[:] = kept_dirs
+
+        for fname in filenames:
+            full_path = current_dir / fname
+
+            if is_ignored(fname, full_path, ignore_patterns):
+                continue
+
+            matched = bool(filename_re.search(fname))
+
+            if args.invert_match:
+                if matched:
+                    continue
+            else:
+                if not matched:
+                    continue
+
+            try:
+                size = full_path.stat().st_size
+                if args.max_size is not None and size > args.max_size:
+                    continue
+                content = full_path.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError) as exc:
+                print(f"warning: cannot read {full_path}: {exc}", file=sys.stderr)
+                continue
+
+            if args.size_only:
+                sys.stdout.write(
+                    f"file: {full_path} | {count_lines(content)} lines{separator}"
+                )
+                continue
+
+            fence = make_fence(content)
+
+            sys.stdout.write(
+                f"file: {full_path} | {count_lines(content)} lines{separator}"
+                f"{fence}{separator}"
+                f"{content}{separator}"
+                f"{fence}{separator}{separator}"
+            )
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

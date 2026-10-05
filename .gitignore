@@ -1,10 +1,6 @@
-emacs/org/*.el
-emacs/transient/
-emacs/elpa/
-emacs/elpaca/
-emacs/straight/
-emacs/auto-save-list/
-emacs/eln-cache/
-emacs/.cache/
-emacs/.lsp-session-v1
-nvim/lazy-lock.json
+confs/awesome/deficient
+confs/emacs/straight
+confs/emacs/eln-cache
+confs/emacs/.cache
+confs/emacs/auto-save-list
+*.elc

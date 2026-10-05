@@ -1,0 +1,249 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ------------------------------------------------------------
+# Helper functions
+# ------------------------------------------------------------
+
+info() {
+    printf "[INFO] %s\n" "$*" >&2
+}
+
+error() {
+    printf "[ERROR] %s\n" "$*" >&2
+}
+
+die() {
+    error "$@"
+    exit 1
+}
+
+usage() {
+    cat >&2 <<EOF
+usage: $(basename "$0") [OPTIONS] <archive-file> [outdir]
+
+Extract various archive formats (tar, zip, 7z, rar, etc.) to a directory.
+
+OPTIONS:
+  -o, --output DIR     Extract to DIR (overrides positional outdir)
+  -f, --force          Overwrite existing files without prompting
+  --help               Show this help message
+
+If no output directory is given, it defaults to:
+   ./<archive-basename>_extracted
+
+Requires one of: bsdtar, tar, unzip, 7z/7za, unrar, unar.
+EOF
+    exit 2
+}
+
+# Check if a command exists
+have_cmd() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Make absolute path (portable fallback)
+make_absolute() {
+    local path="$1"
+    if have_cmd realpath; then
+        realpath "$path"
+    else
+        # Fallback: use cd and pwd, but only if path exists
+        if [[ -d "$path" ]]; then
+            (cd "$path" && pwd)
+        elif [[ -f "$path" ]]; then
+            (cd "$(dirname "$path")" && echo "$(pwd)/$(basename "$path")")
+        else
+            echo "$path"
+        fi
+    fi
+}
+
+# ------------------------------------------------------------
+# Main extraction logic
+# ------------------------------------------------------------
+
+extract_with() {
+    local cmd="$1"
+    local archive="$2"
+    local outdir="$3"
+    shift 3
+    local extra_args=("$@")
+
+    info "Using $cmd to extract..."
+    if "$cmd" "${extra_args[@]}" "$archive" -C "$outdir" 2>/dev/null; then
+        info "Extraction successful with $cmd."
+        return 0
+    else
+        # Some extractors don't support -C, try alternative approach
+        if [[ "$cmd" == "unzip" ]]; then
+            if unzip -d "$outdir" "$archive" >/dev/null; then
+                info "Extraction successful with unzip."
+                return 0
+            fi
+        elif [[ "$cmd" == "7z" || "$cmd" == "7za" ]]; then
+            if "$cmd" x -o"$outdir" "$archive" -y >/dev/null; then
+                info "Extraction successful with $cmd."
+                return 0
+            fi
+        elif [[ "$cmd" == "unrar" ]]; then
+            if unrar x -y "$archive" "$outdir" >/dev/null; then
+                info "Extraction successful with unrar."
+                return 0
+            fi
+        elif [[ "$cmd" == "unar" ]]; then
+            if unar -o "$outdir" -f "$archive" >/dev/null; then
+                info "Extraction successful with unar."
+                return 0
+            fi
+        fi
+        return 1
+    fi
+}
+
+# ------------------------------------------------------------
+# Main script
+# ------------------------------------------------------------
+
+main() {
+    local archive=""
+    local outdir=""
+    local force_flag=false
+
+    # Parse options
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -o|--output)
+                if [[ -z "${2:-}" ]]; then
+                    die "Option $1 requires an argument"
+                fi
+                outdir="$2"
+                shift 2
+                ;;
+            -f|--force)
+                force_flag=true
+                shift
+                ;;
+            --help)
+                usage
+                ;;
+            -*)
+                error "Unknown option: $1"
+                usage
+                ;;
+            *)
+                if [[ -z "$archive" ]]; then
+                    archive="$1"
+                elif [[ -z "$outdir" ]]; then
+                    outdir="$1"
+                else
+                    error "Too many arguments: $1"
+                    usage
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    # Archive is mandatory
+    if [[ -z "$archive" ]]; then
+        error "No archive file specified."
+        usage
+    fi
+
+    # Default output directory
+    if [[ -z "$outdir" ]]; then
+        base="${archive%.*}"
+        # If archive has no extension or ends with .tar.gz etc., handle sanely
+        outdir="./${base##*/}_extracted"
+    fi
+
+    # Resolve absolute paths (if possible) for better messages
+    if [[ -f "$archive" ]]; then
+        archive_abs="$(make_absolute "$archive")"
+        info "Input archive: $archive_abs"
+    else
+        archive_abs="$archive"
+        info "Input archive: $archive"
+    fi
+
+    # Check archive existence and readability
+    if [[ ! -f "$archive" ]]; then
+        die "File '$archive' does not exist or is not a regular file."
+    fi
+    if [[ ! -r "$archive" ]]; then
+        die "File '$archive' is not readable."
+    fi
+
+    # Create output directory (mkdir -p handles existing)
+    mkdir -p "$outdir"
+    outdir_abs="$(make_absolute "$outdir")"
+    info "Output directory: $outdir_abs"
+
+    # Overwrite handling: if force is not set and directory is non-empty, ask?
+    if [[ "$force_flag" == false ]] && [[ -n "$(ls -A "$outdir_abs" 2>/dev/null)" ]]; then
+        error "Output directory '$outdir_abs' is not empty."
+        error "Use -f/--force to overwrite contents (or choose a different directory)."
+        exit 1
+    fi
+
+    # -----------------------------------------------------------------
+    # Try extractors in order of preference, with format‑specific checks
+    # -----------------------------------------------------------------
+
+    # 1. bsdtar (libarchive) – handles almost everything
+    if have_cmd bsdtar; then
+        if extract_with bsdtar "$archive" "$outdir" -xf; then
+            exit 0
+        fi
+    fi
+
+    # 2. GNU tar – best for .tar.* and .tar, but won't handle zip/7z/rar
+    if have_cmd tar; then
+        # Quick test: can tar list the archive?
+        if tar -tf "$archive" >/dev/null 2>&1; then
+            if extract_with tar "$archive" "$outdir" -xf; then
+                exit 0
+            fi
+        fi
+    fi
+
+    # 3. unzip – .zip specifically
+    if have_cmd unzip && [[ "${archive,,}" == *.zip ]]; then
+        if extract_with unzip "$archive" "$outdir"; then
+            exit 0
+        fi
+    fi
+
+    # 4. 7z / 7za – many formats (7z, rar, iso, etc.)
+    if have_cmd 7z || have_cmd 7za; then
+        cmd_7z="$(command -v 7z 2>/dev/null || command -v 7za)"
+        if extract_with "$cmd_7z" "$archive" "$outdir" x -y; then
+            exit 0
+        fi
+    fi
+
+    # 5. unrar – specifically for .rar
+    if have_cmd unrar && [[ "${archive,,}" == *.rar ]]; then
+        if extract_with unrar "$archive" "$outdir" x -y; then
+            exit 0
+        fi
+    fi
+
+    # 6. unar – The Unarchiver (handles many formats, often better than 7z for some)
+    if have_cmd unar; then
+        if extract_with unar "$archive" "$outdir" -o -f; then
+            exit 0
+        fi
+    fi
+
+    # If we reach here, no tool succeeded
+    error "No suitable extractor found or extraction failed."
+    error "Supported tools: bsdtar, tar, unzip, 7z/7za, unrar, unar"
+    error "Please install at least one of them."
+    exit 3
+}
+
+# Run the script (trap for unexpected errors)
+trap 'error "Script interrupted or failed."' ERR
+main "$@"

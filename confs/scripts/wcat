@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+"""Inverse of rcat: recreate files from rcat-style Markdown blocks.
+
+Reads rcat output (from stdin or a file) and writes each recorded file
+back to disk, creating parent directories as needed.
+"""
+
+from __future__ import annotations
+
+import argparse
+import re
+import sys
+from pathlib import Path
+from typing import Iterator, Tuple
+
+HEADER_RE = re.compile(r"^file: (?P<path>.+) \| (?P<count>\d+) lines$")
+
+
+def parse_records(text: str, sep: str) -> Iterator[Tuple[str, str, int]]:
+    """Yield (path, content, expected_line_count) from rcat-formatted text."""
+    pos = 0
+    n = len(text)
+    seplen = len(sep)
+
+    while pos < n:
+        # Between records rcat emits an extra separator; skip it.
+        if not text.startswith("file: ", pos):
+            if text.startswith(sep, pos):
+                pos += seplen
+                continue
+            break  # trailing junk / EOF
+
+        # --- header -----------------------------------------------------
+        header_end = text.find(sep, pos)
+        if header_end == -1:
+            header_end = n
+        header = text[pos:header_end]
+        pos = min(header_end + seplen, n)
+
+        m = HEADER_RE.match(header)
+        if m is None:
+            raise ValueError(f"malformed header: {header!r}")
+        path = m.group("path")
+        expected = int(m.group("count"))
+
+        # --- opening fence ---------------------------------------------
+        fence_end = text.find(sep, pos)
+        if fence_end == -1:
+            fence_end = n
+        fence = text[pos:fence_end]
+        pos = min(fence_end + seplen, n)
+
+        if not fence or len(fence) < 3 or any(c != "`" for c in fence):
+            raise ValueError(f"malformed fence: {fence!r}")
+
+        # --- content up to (but not including) the closing fence -------
+        closer = fence + sep
+        close_pos = text.find(closer, pos)
+        if close_pos == -1:
+            raise ValueError(f"missing closing fence for {path}")
+
+        raw = text[pos:close_pos]
+        # The final separator before the closing fence is not content.
+        content = raw[:-seplen] if raw.endswith(sep) else raw
+        pos = close_pos + len(closer)
+
+        yield path, content, expected
+
+
+def count_lines(text: str) -> int:
+    if not text:
+        return 0
+    return text.count("\n") + (0 if text.endswith("\n") else 1)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Recreate files from rcat-style Markdown code blocks."
+    )
+    parser.add_argument(
+        "input",
+        nargs="?",
+        type=Path,
+        help="Input file (default: read from stdin)",
+    )
+    parser.add_argument(
+        "-C",
+        "--directory",
+        type=Path,
+        default=Path("."),
+        metavar="DIR",
+        help="Base directory for relative paths (default: cwd)",
+    )
+    parser.add_argument(
+        "-0",
+        "--null",
+        action="store_true",
+        help="Input uses NUL separators (matches `rcat -0`)",
+    )
+    parser.add_argument(
+        "-n",
+        "--dry-run",
+        action="store_true",
+        help="Show what would be written without touching the disk",
+    )
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="Overwrite existing files (default: skip with warning)",
+    )
+    parser.add_argument(
+        "--check-lines",
+        action="store_true",
+        help="Warn when the recorded line count does not match the content",
+    )
+    args = parser.parse_args()
+
+    sep = "\0" if args.null else "\n"
+
+    text = (
+        sys.stdin.read()
+        if args.input is None
+        else args.input.read_text(encoding="utf-8")
+    )
+
+    base = args.directory.expanduser()
+    if not args.dry_run:
+        base.mkdir(parents=True, exist_ok=True)
+
+    written = skipped = 0
+
+    try:
+        for path_str, content, expected in parse_records(text, sep):
+            if args.check_lines:
+                actual = count_lines(content)
+                if actual != expected:
+                    print(
+                        f"warning: line-count mismatch for {path_str}: "
+                        f"expected {expected}, got {actual}",
+                        file=sys.stderr,
+                    )
+
+            target = Path(path_str)
+            if not target.is_absolute():
+                target = base / target
+
+            if target.exists() and not args.force:
+                print(
+                    f"skip: {target} (exists; use -f to overwrite)",
+                    file=sys.stderr,
+                )
+                skipped += 1
+                continue
+
+            if args.dry_run:
+                print(f"would write: {target} ({len(content)} bytes)")
+                written += 1
+                continue
+
+            try:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(content, encoding="utf-8")
+            except OSError as exc:
+                print(f"error: cannot write {target}: {exc}", file=sys.stderr)
+                continue
+            written += 1
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"{written} file(s) written, {skipped} skipped", file=sys.stderr)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

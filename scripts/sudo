@@ -1,4 +1,0 @@
-#!/bin/sh
-#export SUDO_ASKPASS=$HOME/scripts/sudo-askpass.py
-export SUDO_ASKPASS=$(which systemd-ask-password)
-/usr/bin/sudo -A "$@"

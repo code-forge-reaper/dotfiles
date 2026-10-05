@@ -1,0 +1,38 @@
+input type:keyboard {
+  xkb_layout br
+  xkb_variant abnt2
+}
+
+input type:touchpad {
+  natural_scroll on
+  tap on
+  dwt off
+}
+animation_duration_ms 250
+
+set $mod Mod4
+font pango:JetBrains Mono Nerd 12
+floating_modifier $mod
+
+tiling_drag titlebar
+
+## inits
+exec --no-startup-id dex --autostart --environment sway
+exec --no-startup-id xss-lock --transfer-sleep-lock -- swaylock --nofork
+exec --no-startup-id swaybg -c "#3f1f1f"
+
+
+## keybinds
+include ./keybinds.conf
+
+## Window stuff
+
+include ./window-*.conf
+include ./workspace.conf
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec swaymsg exit
+
+# dock
+exec --no-startup-id bash ~/scripts/init.sh
