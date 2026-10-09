@@ -208,4 +208,3 @@ bindsym $mod+r mode "resize"
 
 # dock
 exec --no-startup-id bash ~/scripts/init.sh
-exec --no-startup-id qs -d

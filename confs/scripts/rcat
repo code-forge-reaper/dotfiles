@@ -129,7 +129,7 @@ def main() -> int:
 
             sys.stdout.write(
                 f"file: {full_path} | {count_lines(content)} lines{separator}"
-                f"{fence}{separator}"
+                f"{fence}{os.path.splitext(full_path)[1][1:]}{separator}"
                 f"{content}{separator}"
                 f"{fence}{separator}{separator}"
             )

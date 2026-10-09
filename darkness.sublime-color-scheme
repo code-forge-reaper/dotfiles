@@ -1,0 +1,303 @@
+{
+    "name": "Complete Darkness Neon",
+    "author": "Converted from Neovim",
+    "variables":
+    {
+        "bg":             "#1f1f1f",
+        "bg_alt":         "#07101a",
+        "bg_dim":         "#2b2f36",
+        "lighter_bg_dim": "#3d4451",
+        "fg":             "#e6f1ff",
+        "muted":          "#6b7280",
+        "pink":           "#fa00af",
+        "cyan":           "#00f5ff",
+        "yellow":         "#ffa900",
+        "green":          "#7cff5f",
+        "orange":         "#ff8c42",
+        "blue":           "#5aa0ff",
+        "violet":         "#b58cff",
+        "red":            "#ff5370",
+        "vis_line":       "#183040",
+        "mparen":         "#1024ab",
+        "param":          "#aba5a1"
+    },
+    "globals":
+    {
+        "background":            "var(bg)",
+        "foreground":            "var(fg)",
+        "caret":                 "var(fg)",
+        "block_caret":           "var(fg)",
+        "selection":             "var(vis_line)",
+        "selection_border":      "var(vis_line)",
+        "line_highlight":        "var(bg_dim)",
+        "find_highlight":        "var(yellow)",
+        "find_highlight_foreground": "var(bg)",
+        "inactive_selection":    "var(bg_dim)",
+        "inactive_selection_border": "var(bg_dim)",
+        "gutter":                "var(bg)",
+        "gutter_foreground":     "var(lighter_bg_dim)",
+        "gutter_foreground_highlight": "var(cyan)",
+        "guide":                 "color(var(lighter_bg_dim) alpha(0.4))",
+        "active_guide":          "var(cyan)",
+        "stack_guide":           "color(var(lighter_bg_dim) alpha(0.25))",
+        "brackets_options":      "underline",
+        "brackets_foreground":   "var(cyan)",
+        "bracket_contents_options": "underline",
+        "bracket_contents_foreground": "var(violet)",
+        "tags_options":          "stippled_underline",
+        "tags_foreground":       "var(green)",
+        "shadow":                "color(var(bg) alpha(0.5))",
+        "shadow_width":          "8",
+        "popup_css":             "html { background-color: var(--bg_alt); } body { color: var(--fg); }",
+        "accent":                "var(cyan)",
+        "minimap_border":        "var(bg_dim)"
+    },
+    "rules":
+    [
+        // ======================
+        // Core syntax
+        // ======================
+        {
+            "name": "Comment",
+            "scope": "comment, punctuation.definition.comment",
+            "foreground": "var(muted)",
+            "font_style": "italic"
+        },
+        {
+            "name": "Constant",
+            "scope": "constant",
+            "foreground": "var(yellow)"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "var(yellow)"
+        },
+        {
+            "name": "Number / Boolean",
+            "scope": "constant.numeric, constant.language.boolean",
+            "foreground": "var(orange)"
+        },
+        {
+            "name": "Boolean (bold)",
+            "scope": "constant.language.boolean",
+            "font_style": "bold"
+        },
+        {
+            "name": "Identifier / Variable",
+            "scope": "variable, support.variable, entity.name.variable",
+            "foreground": "var(fg)"
+        },
+        {
+            "name": "Property",
+            "scope": "variable.other.member, support.type.property-name, meta.property-name",
+            "foreground": "var(blue)"
+        },
+        {
+            "name": "Parameter",
+            "scope": "variable.parameter, meta.function.parameters",
+            "foreground": "var(param)"
+        },
+        {
+            "name": "Function",
+            "scope": "entity.name.function, support.function, meta.function-call",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Keyword / Statement",
+            "scope": "keyword, storage, storage.type, storage.modifier",
+            "foreground": "var(pink)",
+            "font_style": "bold"
+        },
+        {
+            "name": "Operator",
+            "scope": "keyword.operator",
+            "foreground": "var(fg)"
+        },
+        {
+            "name": "Type",
+            "scope": "entity.name.type, support.type, storage.type",
+            "foreground": "var(blue)"
+        },
+        {
+            "name": "Special / Preproc",
+            "scope": "support, meta.preprocessor, keyword.control.directive",
+            "foreground": "var(violet)"
+        },
+        {
+            "name": "Preprocessor (bold)",
+            "scope": "meta.preprocessor",
+            "font_style": "bold"
+        },
+        {
+            "name": "Tag",
+            "scope": "entity.name.tag, punctuation.definition.tag",
+            "foreground": "var(green)"
+        },
+        {
+            "name": "Namespace",
+            "scope": "entity.name.namespace, support.other.namespace",
+            "foreground": "var(violet)"
+        },
+        {
+            "name": "Todo",
+            "scope": "comment.todo, comment.line.todo",
+            "foreground": "var(orange)",
+            "font_style": "bold"
+        },
+
+        // ======================
+        // Diff / Git
+        // ======================
+        {
+            "name": "Diff Add",
+            "scope": "markup.inserted, diff.inserted",
+            "foreground": "var(green)"
+        },
+        {
+            "name": "Diff Change",
+            "scope": "markup.changed, diff.changed",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Diff Delete",
+            "scope": "markup.deleted, diff.deleted",
+            "foreground": "var(red)"
+        },
+        {
+            "name": "Diff Text",
+            "scope": "markup.changed.diff, meta.diff.header",
+            "foreground": "var(yellow)"
+        },
+
+        // ======================
+        // Errors
+        // ======================
+        {
+            "name": "Error",
+            "scope": "invalid, invalid.illegal",
+            "foreground": "var(red)"
+        },
+        {
+            "name": "Warning",
+            "scope": "invalid.deprecated",
+            "foreground": "var(orange)"
+        },
+
+        // ======================
+        // Markdown
+        // ======================
+        {
+            "name": "Markdown Heading",
+            "scope": "markup.heading, markup.heading entity.name",
+            "foreground": "var(pink)",
+            "font_style": "bold"
+        },
+        {
+            "name": "Markdown Heading 1",
+            "scope": "markup.heading.1, markup.heading.1 entity.name",
+            "foreground": "var(pink)",
+            "font_style": "bold"
+        },
+        {
+            "name": "Markdown Heading 2",
+            "scope": "markup.heading.2, markup.heading.2 entity.name",
+            "foreground": "var(cyan)",
+            "font_style": "bold"
+        },
+        {
+            "name": "Markdown Heading 3",
+            "scope": "markup.heading.3, markup.heading.3 entity.name",
+            "foreground": "var(violet)",
+            "font_style": "bold"
+        },
+        {
+            "name": "Markdown Heading 4-6",
+            "scope": "markup.heading.4, markup.heading.5, markup.heading.6, markup.heading.4 entity.name, markup.heading.5 entity.name, markup.heading.6 entity.name",
+            "foreground": "var(blue)",
+            "font_style": "bold"
+        },
+        {
+            "name": "Markdown Bold",
+            "scope": "markup.bold",
+            "foreground": "var(orange)",
+            "font_style": "bold"
+        },
+        {
+            "name": "Markdown Italic",
+            "scope": "markup.italic",
+            "foreground": "var(violet)",
+            "font_style": "italic"
+        },
+        {
+            "name": "Markdown Bold Italic",
+            "scope": "markup.bold markup.italic, markup.italic markup.bold",
+            "foreground": "var(pink)",
+            "font_style": "bold italic"
+        },
+        {
+            "name": "Markdown Code (inline)",
+            "scope": "markup.raw.inline, markup.raw.inline.markdown",
+            "foreground": "var(green)"
+        },
+        {
+            "name": "Markdown Code Block",
+            "scope": "markup.raw.block, markup.raw.block.fenced, markup.fenced_code",
+            "foreground": "var(green)"
+        },
+        {
+            "name": "Markdown Code Fence",
+            "scope": "punctuation.definition.raw, punctuation.definition.fenced",
+            "foreground": "var(muted)"
+        },
+        {
+            "name": "Markdown Link",
+            "scope": "markup.underline.link, meta.link",
+            "foreground": "var(cyan)",
+            "font_style": "underline"
+        },
+        {
+            "name": "Markdown Link Title / Text",
+            "scope": "string.other.link.title, meta.link.inline description, meta.image.inline description",
+            "foreground": "var(blue)"
+        },
+        {
+            "name": "Markdown Image",
+            "scope": "meta.image, markup.underline.link.image",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Markdown Quote",
+            "scope": "markup.quote",
+            "foreground": "var(muted)",
+            "font_style": "italic"
+        },
+        {
+            "name": "Markdown List Marker",
+            "scope": "markup.list, punctuation.definition.list_item, markup.list.numbered, markup.list.unnumbered",
+            "foreground": "var(orange)"
+        },
+        {
+            "name": "Markdown Separator / HR",
+            "scope": "meta.separator, markup.separator",
+            "foreground": "var(muted)"
+        },
+        {
+            "name": "Markdown Strikethrough",
+            "scope": "markup.strikethrough",
+            "foreground": "var(muted)",
+            "font_style": "strikethrough"
+        },
+        {
+            "name": "Markdown Table",
+            "scope": "markup.table, meta.table",
+            "foreground": "var(fg)"
+        },
+        {
+            "name": "Markdown Table Header",
+            "scope": "markup.table markup.heading, meta.table.header",
+            "foreground": "var(cyan)",
+            "font_style": "bold"
+        }
+    ]
+}

@@ -44,7 +44,9 @@
     "wl": "wc -c",
     "enable-usb-net": "adb shell svc usb setFunctions rndis",
     "cat": "ccat",
-    "ls": "g -F"
+    "ls": "g -F",
+    "aliases": "gtools dump alias",
+    "gc": "git commit"
   },
   "autorun": [
     "/home/linuxbrew/.linuxbrew/bin/brew shellenv %SHELL%",

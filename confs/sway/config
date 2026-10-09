@@ -19,7 +19,7 @@ tiling_drag titlebar
 ## inits
 exec --no-startup-id dex --autostart --environment sway
 exec --no-startup-id xss-lock --transfer-sleep-lock -- swaylock --nofork
-exec --no-startup-id swaybg -c "#3f1f1f"
+exec --no-startup-id swaybg -i ~/Pictures/background.jpg
 
 
 ## keybinds

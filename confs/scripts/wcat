@@ -15,7 +15,6 @@ from typing import Iterator, Tuple
 
 HEADER_RE = re.compile(r"^file: (?P<path>.+) \| (?P<count>\d+) lines$")
 
-
 def parse_records(text: str, sep: str) -> Iterator[Tuple[str, str, int]]:
     """Yield (path, content, expected_line_count) from rcat-formatted text."""
     pos = 0
@@ -47,11 +46,19 @@ def parse_records(text: str, sep: str) -> Iterator[Tuple[str, str, int]]:
         fence_end = text.find(sep, pos)
         if fence_end == -1:
             fence_end = n
-        fence = text[pos:fence_end]
+        fence_line = text[pos:fence_end]
         pos = min(fence_end + seplen, n)
 
-        if not fence or len(fence) < 3 or any(c != "`" for c in fence):
-            raise ValueError(f"malformed fence: {fence!r}")
+        # Markdown fences: the opening line may carry an info string
+        # ("```python", "```json5", etc.).  The *fence* proper is just
+        # the leading run of backticks; the closing fence has no info
+        # string, so we must search for that run alone.
+        bt = 0
+        while bt < len(fence_line) and fence_line[bt] == "`":
+            bt += 1
+        if bt < 3:
+            raise ValueError(f"malformed fence: {fence_line!r}")
+        fence = fence_line[:bt]
 
         # --- content up to (but not including) the closing fence -------
         closer = fence + sep
@@ -65,7 +72,6 @@ def parse_records(text: str, sep: str) -> Iterator[Tuple[str, str, int]]:
         pos = close_pos + len(closer)
 
         yield path, content, expected
-
 
 def count_lines(text: str) -> int:
     if not text:

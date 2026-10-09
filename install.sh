@@ -36,12 +36,19 @@ link "$DIR/i3" "$HOME/.config/i3"
 link "$DIR/nvim" "$HOME/.config/nvim"
 link "$DIR/zsh" "$HOME/.config/zsh"
 link "$DIR/emacs" "$HOME/.config/emacs"
+for file in $(dir $DIR/scripts); do
+	link "$DIR/scripts/$file" "$HOME/scripts/$file"
+done
 
-link "$DIR/scripts" "$HOME/scripts"
 link "$DIR/fish" "$HOME/.config/fish"
+link "$DIR/mpd" "$HOME/.mpd"
 link "$DIR/awesome" "$HOME/.config/awesome"
 link "$DIR/quickshell" "$HOME/.config/quickshell"
 link "$DIR/sway" "$HOME/.config/sway"
+if [ -d "~/.config/sublime-text" ]; then
+link "$DIR/darkness.sublime-color-scheme" \
+ ~/.config/sublime-text/Packages/User/darkness.sublime-color-scheme
+fi
 
 link "$DIR/.zshrc" "$HOME/.zshrc"
 link "$DIR/.alacritty.toml" "$HOME/.alacritty.toml"

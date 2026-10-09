@@ -1,0 +1,316 @@
+2026-10-09T05:16:15 exception: Failed to open "/home/cross/.mpd/mpdstate": No such file or directory
+2026-10-09T05:16:15 update: added ymusic/ALTER EGO (Extended Mix).mp3
+2026-10-09T05:16:15 update: added ymusic/DOPAMINE BABY.mp3
+2026-10-09T05:16:15 update: added ymusic/ONE BITE [2CqsYoiMZek].opus
+2026-10-09T05:16:15 update: added ymusic/Silentphobia.mp3
+2026-10-09T05:16:16 update: added ymusic/WW - OIIA OIIA (Spinning Cat).mp3
+2026-10-09T05:16:16 update: added ymusic/Camellia - Toxic Violet Cubes From BSWC2021 Grand Finals.mp3
+2026-10-09T05:16:16 update: added ymusic/Introduction -ENTRANS OF DA JUNGLE- [X0dRvz3TNZE].opus
+2026-10-09T05:16:16 update: added ymusic/EPILEPSY WARNING Soulles DX - Gamebreaker B3 Remix.mp3
+2026-10-09T05:16:16 update: added ymusic/Poison Mushroom [esSSVyzjZcI].opus
+2026-10-09T05:16:16 update: added ymusic/JDM (Jungle Dance Music) [5IHlCoHjrYA].opus
+2026-10-09T05:16:16 update: added ymusic/Ethnik Khemikal Teknologi [TA-aTQmckXc].opus
+2026-10-09T05:16:16 update: added ymusic/Primitive Pump [wojKotv1qP0].opus
+2026-10-09T05:16:16 update: added ymusic/ATTACK FROM MANDRAKE [dZZlCc206n0].opus
+2026-10-09T05:16:16 update: added ymusic/D0 U Kl ⧸ l0VV D0l ⧸ lK3⧹ K0l ⧸ l6？ [OUPEl3J1yF4].opus
+2026-10-09T05:16:16 update: added ymusic/Love yiff! [05v56-zQ0g0].opus
+2026-10-09T05:16:16 update: added ymusic/Furry Cannon [kMoHrwNVQBk].opus
+2026-10-09T05:16:16 update: added ymusic/Illegal trap [p-db-N_ER5g].opus
+2026-10-09T05:16:16 update: added ymusic/The King Of Lions [m_26jAEplOM].opus
+2026-10-09T05:16:16 update: added ymusic/POWA OF DA WILDANES [Ldh1fSo1lGU].opus
+2026-10-09T05:16:16 update: added ymusic/B L A C K - R A Y [5upHLUWklJE].opus
+2026-10-09T05:16:16 update: added ymusic/BRACE FOR FRICKING IMPACT [_idaELMWRt8].opus
+2026-10-09T05:16:16 update: added ymusic/Mystery Circles Ultra ⧸ U.U.F.O. [3TDRcr1VInI].opus
+2026-10-09T05:16:16 update: added ymusic/Circles of Death [b9_b140wIUU].opus
+2026-10-09T05:16:16 update: added ymusic/[The] Red ＊ Room [9tEb7-4vySM].opus
+2026-10-09T05:16:16 update: added ymusic/Nasty ＊ Nasty ＊ Spell [z9SNCfLy8VU].opus
+2026-10-09T05:16:16 update: added ymusic/Labyrinth in Kowloon： Walled World [1jelXEYlMa8].opus
+2026-10-09T05:16:16 update: added ymusic/Arche [PWapkD8YPQQ].opus
+2026-10-09T05:16:16 update: added ymusic/Night Raid with a Dragon [WNLBSarUluo].opus
+2026-10-09T05:16:16 update: added ymusic/Electromagnetic Stealth Girl Born In Philadelphia [1KaoJEAHMxs].opus
+2026-10-09T05:16:16 update: added ymusic/NĀGALOKAḤ ⧸ Prologue： Realm of Dragons [KcMep7WOiHw].opus
+2026-10-09T05:16:16 update: added ymusic/Lúin Øf CeltchaЯ [ka_Z4sRGA8E].opus
+2026-10-09T05:16:16 update: added ymusic/Жужжалка76 [A-Rvob1Px68].opus
+2026-10-09T05:16:16 update: added ymusic/Blackfire Backfire [CbV9THnbrQM].opus
+2026-10-09T05:16:16 update: added ymusic/KillerBeast [JS4BfG4qTiw].opus
+2026-10-09T05:16:16 update: added ymusic/KillerToy [I6GoPC1azfI].opus
+2026-10-09T05:16:16 update: added ymusic/LET ME COOK [VDNU5efRVRQ].opus
+2026-10-09T05:16:16 update: added ymusic/Blackmagik Blazing [X7TwlyV8tQE].opus
+2026-10-09T05:16:17 update: added ymusic/POLYBIUS GB SPEEDRUN -Glitchless 100% WR in 0_03_57- [grI8Phf-kxs].opus
+2026-10-09T05:16:17 update: added ymusic/Backbeat Revenge [itvEkowmeik].opus
+2026-10-09T05:16:17 update: added ymusic/[BLEED BLOOD] [LEJKCFoBANY].opus
+2026-10-09T05:16:17 update: added ymusic/Tentaclar Aliens' Epic Extraterretterrestrial Jungle Dance Party Inside Of A... [MzsBwcXkghQ].opus
+2026-10-09T05:16:17 update: added ymusic/MAMBO COMBO [cqMYCDmhunw].opus
+2026-10-09T05:16:17 update: added ymusic/SECRET BOSS [BE05mKyjehg].opus
+2026-10-09T05:16:17 update: added ymusic/FINAL BLENDERMAN APPEARED. (feat. RichaadEB) [Wh3RDBfFlnA].opus
+2026-10-09T05:16:17 update: added ymusic/BITE ME MORE PLS [-pbcIAS_mrc].opus
+2026-10-09T05:16:17 update: added ymusic/We Could Get More Machinegun Psystyle! -And More Genre Switches- [Rp8uQzSXXRc].opus
+2026-10-09T05:16:17 update: added ymusic/WYSI -When You See It- [A6zBu8tpu0E].opus
+2026-10-09T05:16:17 update: added ymusic/QuomodocunquizE [bUaw3DaCcD8].opus
+2026-10-09T05:16:17 update: added ymusic/⧸⧸⧸Under Construxion⧸⧸⧸ [X77UqVbytow].opus
+2026-10-09T05:16:17 update: added ymusic/2021年の魔法使いたち [IYi48uQaFW8].opus
+2026-10-09T05:16:17 update: added ymusic/Chimera Dragons [O7QWcV22jAo].opus
+2026-10-09T05:16:17 update: added ymusic/NIGHTMARE † CITY [qMCYw3lSYhQ].opus
+2026-10-09T05:16:17 update: added ymusic/AREA 52 [FmLm5yx2rYQ].opus
+2026-10-09T05:16:17 update: added ymusic/UmbЯal [tYsQ5WP0dL4].opus
+2026-10-09T05:16:17 update: added ymusic/__XYBERR⧸⧸DRACOO__ [UCD3cGV3kVY].opus
+2026-10-09T05:16:17 update: added ymusic/Kisaragi [ZNmheia3lBo].opus
+2026-10-09T05:16:17 update: added ymusic/Glitch Out (feat. ななひら) [h0yzLb4gP7M].opus
+2026-10-09T05:16:17 update: added ymusic/Bermuda Δ Triangle (feat. The8BitDrummer) [QMzlshmJq3E].opus
+2026-10-09T05:16:17 update: added ymusic/GHOST GIRL CANNOT BE KILLED [5MelbCcT1Ow].opus
+2026-10-09T05:16:17 update: added ymusic/CICADA3302 [KdEFp7dqYaM].opus
+2026-10-09T05:16:17 update: added ymusic/Kikai No Tsubasa (feat. 重音テト) [cZ_rT9iJVtY].opus
+2026-10-09T05:16:17 update: added ymusic/SLIME INCIDENT [ZuN9b1r1h40].opus
+2026-10-09T05:16:17 update: added ymusic/24-Dimensional Non-Euclidean Deep Blue Starfall Vertigo [pmpZAgNjvIA].opus
+2026-10-09T05:16:17 update: added ymusic/The Cat Evolved Into The Microwave-proof Cat! [D2NvBx_Y4o4].opus
+2026-10-09T05:16:17 update: added ymusic/Hottest Take Machine [tf41W43fESU].opus
+2026-10-09T05:16:17 update: added ymusic/ゾンビー・サーカス [RTkEwO31eks].opus
+2026-10-09T05:16:17 update: added ymusic/magical, very magical world [t0hf4Q8pidU].opus
+2026-10-09T05:16:17 update: added ymusic/t ⧸ a⧸n ⧸ a⧸s ⧸ i⧸n ⧸ n [RJi4Tw-FKgE].opus
+2026-10-09T05:16:17 update: added ymusic/GHOUL [ibTawqSQg8U].opus
+2026-10-09T05:16:18 update: added ymusic/NĀGALĪLĀ ⧸ Epilogue： Legend of Dragons [Wv0xUxA-I0U].opus
+2026-10-09T05:16:18 update: added ymusic/Hello (BPM) 2021 [Bhu1xr_6XHs].opus
+2026-10-09T05:16:18 update: added ymusic/#1f1e33 (#00102g Version) [a3nCzweC6QE].opus
+2026-10-09T05:16:18 update: added ymusic/0_00 [aoyO7D11glw].opus
+2026-10-09T05:16:18 update: added ymusic/Body Bag [ITBWLi-Ypv8].opus
+2026-10-09T05:16:18 update: added ymusic/Bad Things [R5Oc-XqLMuY].opus
+2026-10-09T05:16:18 update: added ymusic/Fake [S-jjF4iUP-w].opus
+2026-10-09T05:16:18 update: added ymusic/Judgement Day [so2ABDvjllE].opus
+2026-10-09T05:16:18 update: added ymusic/FWYTYK [Fxpqgykoppk].opus
+2026-10-09T05:16:18 update: added ymusic/Deep End [JQPUsrsA_jU].opus
+2026-10-09T05:16:18 update: added ymusic/Long Live The King [hcGiDFrexdc].opus
+2026-10-09T05:16:18 update: added ymusic/Choke [ZlDl5z-91gI].opus
+2026-10-09T05:16:18 update: added ymusic/Closure [gjYlwy1dw9U].opus
+2026-10-09T05:16:18 update: added ymusic/Bad Things (Stripped) [g7upbXau1xQ].opus
+2026-10-09T05:16:18 update: added ymusic/Camellia - ΩΩPARTS (From OWC2020 Standard Grand Final Tiebreaker) [lc4nTM6M9KY].opus
+2026-10-09T05:16:18 update: added ymusic/Camellia - TremENDouS [From EGTS 2021 Grand Finals Tiebreaker] [XXDNPX-oYCI].opus
+2026-10-09T05:16:18 update: added ymusic/Camellia - Nacreous Snowmelt (for THX 70k Twitter Followers) [OU7YFePj3jM].opus
+2026-10-09T05:16:18 update: added ymusic/[FREE DL] M1LLI0N PP [Full Flavor] [pSDZveD8ZGQ].opus
+2026-10-09T05:16:18 update: added ymusic/Camellia - ANTINEUTRINO WITCHCRAFT [From EGCS 2023 Grand Finals Tiebreaker] [BQS57GsE7UQ].opus
+2026-10-09T05:16:18 update: added ymusic/Camellia VS. Gram - ENÛMA∇ELIŠ ~Camellia Saga~ (From Album ＂Rex＂ Tr.10) [g0_cLGZlV1Y].opus
+2026-10-09T05:16:18 update: added ymusic/Camellia - Operation： Zenithfall [For osu! World Cup 2024 Grand Finals Tiebreaker] [gQhW1RE_WWY].opus
+2026-10-09T05:16:19 update: added ymusic/DESTINY - Wii Funkin' REMIX [VXaVc8Uio-Q].opus
+2026-10-09T05:16:19 update: added ymusic/Imitation Circus [3mojgQjdlXU].opus
+2026-10-09T05:16:19 update: added ymusic/Virus T+ [FF7t-vlJ6w0].opus
+2026-10-09T05:16:19 update: added ymusic/Third Time UNLucky (UNCut Edition) [XOkYPQjJS6E].opus
+2026-10-09T05:16:19 update: added ymusic/It's a DUMMY [2Q_msTMvy4k].opus
+2026-10-09T05:16:19 update: added ymusic/Absurde.mp3
+2026-10-09T05:16:19 update: added ymusic/GREEDOOM - FNF Voiid Chronicles OST.mp3
+2026-10-09T05:16:19 update: added ymusic/Thrash Drive [y0fgJVOMyyI].opus
+2026-10-09T05:16:19 update: added ymusic/Overdrive [AmeyxpIhTD0].opus
+2026-10-09T05:16:19 update: added ymusic/Bitch [cxRM-k8m1l8].opus
+2026-10-09T05:16:19 update: added ymusic/Accelerant [Diomy4qoEjw].opus
+2026-10-09T05:16:19 update: added ymusic/Blood Rage (feat. Xhitest) [i-FrhLPTsDQ].opus
+2026-10-09T05:16:19 update: added ymusic/Killstream.mp3
+2026-10-09T05:16:19 update: added ymusic/The End [a54P9yaBqR4].opus
+2026-10-09T05:16:19 update: added ymusic/Rain Down [Us5DbwG1ffs].opus
+2026-10-09T05:16:19 update: added ymusic/Demons [qn370qlCCqw].opus
+2026-10-09T05:16:19 update: added ymusic/Antidote [JECmJDB35C8].opus
+2026-10-09T05:16:19 update: added ymusic/Claustrophobia [mq_bUEP3qnA].opus
+2026-10-09T05:16:19 update: added ymusic/nuBlood (feat. Fame On Fire) [p7S3IsBqlI8].opus
+2026-10-09T05:16:19 update: added ymusic/VULGRATH - FNF Voiid Chronicles V3 OST.mp3
+2026-10-09T05:16:19 update: added ymusic/GREEDOOM - FNF Voiid Chronicles V3 OST.mp3
+2026-10-09T05:16:19 update: added ymusic/Blueballs Incident 2.0 - SONGS.mp3
+2026-10-09T05:16:19 update: added ymusic/Rage - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [iGY9o0xRTxU].opus
+2026-10-09T05:16:19 update: added ymusic/Technophobia - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [mpSTUiYQKI8].opus
+2026-10-09T05:16:19 update: added ymusic/Thanatophobia - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [VQDS4AR2Qik].opus
+2026-10-09T05:16:19 update: added ymusic/Athazagoraphobia - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [oWGJEhvrhCY].opus
+2026-10-09T05:16:19 update: added ymusic/My Dear Love - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [0VGJf2zoTro].opus
+2026-10-09T05:16:19 update: added ymusic/Your Mom - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [44BQZQYsVtY].opus
+2026-10-09T05:16:19 update: added ymusic/Daisuki - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [kORX23lROfQ].opus
+2026-10-09T05:16:20 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:20 update: added ymusic/1. MAIN MENU - FNF Rev-Mixed.m4a
+2026-10-09T05:16:20 update: added ymusic/Ready for War.mp3
+2026-10-09T05:16:20 update: added ymusic/Motionless in White - Blood Rave (feat. Anthony Martinez) Official Lyric Video.mp3
+2026-10-09T05:16:20 update: added ymusic/DANGEROOOOUS JUNGLE (Extended).mp3
+2026-10-09T05:16:20 update: added ymusic/Friday Night Madness - Inquiry Remix Full (ScrapeFace Remasted Song).mp3
+2026-10-09T05:16:20 update: added ymusic/GOLDEN RESENT AKIRO - FNF ANCIUM OVERDRIVE OST.mp3
+2026-10-09T05:16:20 update: added ymusic/(ANNIVERSARY SPECIAL) SHADOW TAKER - Wii Funkin Title Bout OST.mp3
+2026-10-09T05:16:20 update: added ymusic/PURGAC0CKY - Wii Funkin Title Bout OST.mp3
+2026-10-09T05:16:20 update: added ymusic/END UP - Wii Funkin Title Bout OST.mp3
+2026-10-09T05:16:20 update: added ymusic/EDGELORD - Wii Funkin Title Bout OST.mp3
+2026-10-09T05:16:20 update: added ymusic/UNFORTUNATE NEW - FNF Wii Funkin Title Bout.mp3
+2026-10-09T05:16:20 update: added ymusic/INSANO 疯狂的 - FNF Wii Funkin Title Bout.mp3
+2026-10-09T05:16:20 update: added ymusic/DEAD END - Wii Funkin Title Bout OST.mp3
+2026-10-09T05:16:20 update: added ymusic/Purge My Existence Out Of This World (feat. BTMC) [VEqrtUPI1p8].opus
+2026-10-09T05:16:20 update: added ymusic/Hex.mp3
+2026-10-09T05:16:20 update: added ymusic/Myths You Forgot (feat. Toby Fox) [6DcvNqhl-jQ].opus
+2026-10-09T05:16:20 update: added ymusic/ΩΩPARTS [W3Zsf1QD6cA].opus
+2026-10-09T05:16:20 update: added ymusic/THE MUZZLE FACING (Long muzzled Version) [xyP-MfOiZgQ].opus
+2026-10-09T05:16:20 update: added ymusic/大地の閾を探して -Looking for Edge of Ground- [DRw0lxvvkRQ].opus
+2026-10-09T05:16:20 update: added ymusic/Doomed [Rwf_ALiDo-4].opus
+2026-10-09T05:16:20 update: added ymusic/Self-Destruction [NV58teGuu98].opus
+2026-10-09T05:16:20 update: added ymusic/There’s Fear In Letting Go [aRGgMdyGpXE].opus
+2026-10-09T05:16:21 update: added ymusic/Deep End (Stripped) [DuMhN-W-nAo].opus
+2026-10-09T05:16:21 update: added ymusic/The Negative [U9BXR8nD5l4].opus
+2026-10-09T05:16:21 update: added ymusic/Visceral [lwUtf-S3dR4].opus
+2026-10-09T05:16:21 update: added ymusic/There’s Fear In Letting Go (Stripped) [_rlngtNnDgQ].opus
+2026-10-09T05:16:21 update: added ymusic/Hate This Song [RrSszChVnh0].opus
+2026-10-09T05:16:21 update: added ymusic/Yuta Imai - ANTIGRAVITY (Official Audio).mp3
+2026-10-09T05:16:21 update: added ymusic/Camellia - LORELEI [For AWC2023 ⧸ A Dance of Fire And Ice Championship 2023 Finals Tiebreaker] [bef23j792eE].opus
+2026-10-09T05:16:21 update: added ymusic/Camellia - Toxic Violet Cubes [From BSWC2021 Grand Finals] [yLOwX2uDJ34].opus
+2026-10-09T05:16:21 update: added ymusic/Camellia - Parallel Universe Shifter [For osu! mania 4K World Cup 2023 GF Tiebreaker] [BZy_c83SQck].opus
+2026-10-09T05:16:21 update: added ymusic/Camellia - REX (From Album ＂REX＂ Tr.09) [iwfui1__Ceo].opus
+2026-10-09T05:16:21 update: added ymusic/tpazolite VS 削除 - Silentphobia (Official MV) WACCA Lily R.mp3
+2026-10-09T05:16:21 update: added ymusic/IZANA (Uncut Edition) [nPXRxLchWgc].opus
+2026-10-09T05:16:21 update: added ymusic/Rush Away [LKfyl5DSxYs].opus
+2026-10-09T05:16:21 update: added ymusic/T+ VS SHARK [2mjsxzVZT-U].opus
+2026-10-09T05:16:21 update: added ymusic/Pandemonium [MLQHU9rnR2I].opus
+2026-10-09T05:16:21 update: added ymusic/Silentphobia (Uncut Edition) [JvSuY8G3wkc].opus
+2026-10-09T05:16:21 update: added ymusic/MAXIMAL TECHNO [8rda4aCimfk].opus
+2026-10-09T05:16:21 update: added ymusic/劇場版ハードコア・シンドローム (feat. HARDCORE TANO＊C) [kx-b33h7-vM].opus
+2026-10-09T05:16:21 update: added ymusic/déjà vu [bBjetKhTzoc].opus
+2026-10-09T05:16:21 update: added ymusic/Orbital Laser.mp3
+2026-10-09T05:16:21 update: added ymusic/Foster The People - Pumped Up Kicks (Official Video).mp3
+2026-10-09T05:16:21 update: added ymusic/My Demons.mp3
+2026-10-09T05:16:21 update: added ymusic/6up 5oh Copout (Pro_Con) (Remastered).mp3
+2026-10-09T05:16:21 update: added ymusic/6up 5Oh CopOut (Pro_Con).mp3
+2026-10-09T05:16:21 update: added ymusic/INFERIS - FNF Wii Funkin Sported Out OST.mp3
+2026-10-09T05:16:21 update: added ymusic/GO INSANITY - Friday Night Madness OST (song By Lyfer).mp3
+2026-10-09T05:16:21 update: added ymusic/Battered [-c-9nbjsN_w].opus
+2026-10-09T05:16:21 update: added ymusic/Skullbreaker [CBrvB-vgknk].opus
+2026-10-09T05:16:21 update: added ymusic/TRAINWRECK [k9YY2kSJY_M].opus
+2026-10-09T05:16:21 update: added ymusic/CLOWN KILLS YOU [FLkAzGTqFUU].opus
+2026-10-09T05:16:21 update: added ymusic/Lockjaw [tui_es0u944].opus
+2026-10-09T05:16:21 update: added ymusic/Pause Them Up [mHZNsXXjZoM].opus
+2026-10-09T05:16:21 update: added ymusic/Rust N' Dust [bKIkunKs9Hs].opus
+2026-10-09T05:16:21 update: added ymusic/MADNESS [vXFjn7gZj3g].opus
+2026-10-09T05:16:21 update: added ymusic/Best For You [7__M0xbgLhU].opus
+2026-10-09T05:16:21 update: added ymusic/Waves [egeEqWrUQvM].opus
+2026-10-09T05:16:22 update: added ymusic/_hope is a cult_ [u00OHm_9KSg].opus
+2026-10-09T05:16:22 update: added ymusic/Better This Way [PxrGtoM-H94].opus
+2026-10-09T05:16:22 update: added ymusic/Life Goes On [636OgjFW4A0].opus
+2026-10-09T05:16:22 update: added ymusic/Endless [TRdDArFF4uE].opus
+2026-10-09T05:16:22 update: added ymusic/_a new hope_ [zTm1f9nAxTA].opus
+2026-10-09T05:16:22 update: added ymusic/Blood Sweat Tears [2DTHp_Q5KWQ].opus
+2026-10-09T05:16:22 update: added ymusic/(Re-Upload) Rejected Corruption (FNF Voiid Chronicles X Corruption Mod) Remix - Official Visualizer.mp3
+2026-10-09T05:16:22 update: added ymusic/CHAMPIONS MATCH - WII Funkin Bloxxed Up OST (300 SUB SPECIAL).mp3
+2026-10-09T05:16:22 update: added ymusic/Sadness - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [g3Q7HbuCBw0].opus
+2026-10-09T05:16:22 update: added ymusic/Incident - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [WmTgMMrOxjk].opus
+2026-10-09T05:16:22 update: added ymusic/Redemption - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [h3TGXjMIocM].opus
+2026-10-09T05:16:22 update: added ymusic/Pteromerhanophobia - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [iD-4U9n3XoQ].opus
+2026-10-09T05:16:22 update: added ymusic/Glossophobia - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [BbqwxR21htM].opus
+2026-10-09T05:16:22 update: added ymusic/Dystychiphobia - Friday Night Funkin' VS BLUEBALLS INCIDENT 2.0 OST [GKiavPcSDB8].opus
+2026-10-09T05:16:22 update: added ymusic/KoruSe - PSYCHOGENESIS.mp3
+2026-10-09T05:16:22 update: added ymusic/Pray for メメメメメ.mp3
+2026-10-09T05:16:22 update: added ymusic/Vs. Sonic.exe - CYCLES ENCORE (Cheremi RemixRemake).mp3
+2026-10-09T05:16:22 update: added ymusic/Canon Event (Spider-Man 2099 - Across The Spider-Verse).mp3
+2026-10-09T05:16:22 update: added ymusic/phonk - speed up (tiktok remix).mp3
+2026-10-09T05:16:22 update: added ymusic/Wii Funkin Title Bout Edgelord (instrumental).mp3
+2026-10-09T05:16:22 update: added ymusic/5. Legacy REMIX - Wii Funkin Boing Mixed OST ( SPECIAL 750 SUBS ).mp3
+2026-10-09T05:16:22 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:22 update: added ymusic/22. FNF Rev Mixed-Ballin.m4a
+2026-10-09T05:16:22 update: added ymusic/10. LIGHT IT UP (V2) - Wii Funkin Boing Mixed OST (12).mp3
+2026-10-09T05:16:22 update: added ymusic/11. PROTOTYPE REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:22 update: added ymusic/TAKESHI たけし - FNF Wii Funkin Vs Matthew Hanma.mp3
+2026-10-09T05:16:22 update: added ymusic/1. Motionless In White - Rats (Official Audio).mp3
+2026-10-09T05:16:22 update: added ymusic/4. Motionless In White - Soft (Official Audio).mp3
+2026-10-09T05:16:22 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:22 update: added ymusic/7. Tread-Lightly - FNF Rev Mixed FANMADE VISUALIZER.m4a
+2026-10-09T05:16:22 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:22 update: added ymusic/11. KING HIT - Funkin Rev-Mixed OST.m4a
+2026-10-09T05:16:22 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:22 update: added ymusic/24. TREAD LIGHTLY (VIP) - FNF Rev-Mixed.m4a
+2026-10-09T05:16:22 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:22 update: added ymusic/8. FNF Rev Mixed-Boxing match rev.m4a
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/27. Turmoil - Rev Mixed x Voiid Chronicles UST.m4a
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/32. BOXING MATCH - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/33. HALFTIME (2K SPECIAL) - FNF Rev-Mixed ( FLP).m4a
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/35. DISASSEMBLER - FNF Rev-Mixed UST.m4a
+2026-10-09T05:16:23 update: added ymusic/Advance - WiiMastered (FANCHART) (HQ reupload).mp3
+2026-10-09T05:16:23 update: added ymusic/UNFORTUNATE ( INSTRUMENTAL ) - FNF Wii Funkin Title Bout.mp3
+2026-10-09T05:16:23 update: added ymusic/VIGOROUS (2026) - Wii Funkin Matts Final Lesson OST.mp3
+2026-10-09T05:16:23 update: added ymusic/1. Boxers REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:23 update: added ymusic/2. Confrontation REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:23 update: added ymusic/3. Prudent Student REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:23 update: added ymusic/4. Endurance REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:23 update: added ymusic/9. CLOUDS REMIX - Wii Funkin Boing Mixed OST (22).mp3
+2026-10-09T05:16:23 update: added ymusic/12. INTERREGNUM V2 - FNF Paper Stories X Boing Mixed OST.mp3
+2026-10-09T05:16:23 update: added ymusic/13. TARGET PRACTICE - FNF Boing Mixed OST.mp3
+2026-10-09T05:16:23 update: added ymusic/14. FISTICUFFS - FNF Boing Mixed OST (1K SPECIAL).mp3
+2026-10-09T05:16:23 update: added ymusic/17. DOWNPOUR REMIX - FNF Boing Mixed OST.mp3
+2026-10-09T05:16:23 update: added ymusic/5. Motionless In White - Untouchable (Official Audio).mp3
+2026-10-09T05:16:23 update: added ymusic/7. Motionless In White - The Ladder (Official Audio).mp3
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/17. REVENGE - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/20. FNF Rev Mixed-Night of nights (meme song).m4a
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/10. FISTICUFFS - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/23. REVenge - Wii Funkin V.S Matt Rev Sides.m4a
+2026-10-09T05:16:23 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:23 update: added ymusic/28. 5 SYMBIOSIS REMIX - (FNF) Rev Mixed x Voiid Chronicles UST.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/29. SIGNAL - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/34. knockout v2 fnf rev-mixed ost.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/38. RUCKUS REMAKE - FNF REV MIXED DX OST.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/39. LIGHT IT UP REMAKE - FNF REV MIXED DX OST.m4a
+2026-10-09T05:16:24 update: added ymusic/(fnf) WII FUNKIN TITLE BOUT - Menacing Power ost.mp3
+2026-10-09T05:16:24 update: added ymusic/6. 3POINT BALLIN - Boing Mixed x Potente Edition x Paper Stories OST (B-DAY 700 SUBS SPECIAL).mp3
+2026-10-09T05:16:24 update: added ymusic/7. Cage Fight REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:24 update: added ymusic/16. DRIBBLE REMIX - FNF Boing Mixed OST.mp3
+2026-10-09T05:16:24 update: added ymusic/18. BOUNCE REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:24 update: added ymusic/19. Assist REMIX - FNF Boing Mixed OST 500 SUBS SPECIAL B-DAY SPECIAL (33).mp3
+2026-10-09T05:16:24 update: added ymusic/2. Motionless In White - Queen For Queen (Official Audio).mp3
+2026-10-09T05:16:24 update: added ymusic/8. Motionless In White - Voices OFFICIAL VIDEO.mp3
+2026-10-09T05:16:24 update: added ymusic/10. Motionless In White - 570 OFFICIAL VIDEO.mp3
+2026-10-09T05:16:24 update: added ymusic/11. Motionless In White - Hourglass (Official Audio).mp3
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/6. Sporting - Wii Funkin V.S Matt Rev Sides.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/2. FNF Rev Mixed-Menu theme.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/18. FINAL DESTINATION - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/3. LIGHT IT UP - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/12. Knockout - Friday Night Funkin VS Matt (REV-MIXED).m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/14. Purgatory - Friday Night Funkin VS Matt (REV-MIXED).m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/15. Rejected - Friday Night Funkin VS Matt (REV-MIXED).m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/16. FNF Rev Mixed Power Link.m4a
+2026-10-09T05:16:24 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:24 update: added ymusic/30. ULTRA VIOLET - FNF Rev-Mixed OST FLP.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/25. INCONCEIVABLE - Friday Night Funkin Rev-Mixed Fanmade Song.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/36. SYNERGY - FNF REV-MIXED ost.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/37. KING HIT - FNF Rev Mixed DX.m4a
+2026-10-09T05:16:25 update: added ymusic/Vs Sonic.exe Rerun OST Top-Loader (FLP) FT. underline5, Joey_Animations.mp3
+2026-10-09T05:16:25 update: added ymusic/DIABLO - Wii Mixed Together OST By 7kukii.mp3
+2026-10-09T05:16:25 update: added ymusic/IGNIS GLADIUS - FNF Voiid Chronicles OST.mp3
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/4. RUCKUS - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:25 update: added ymusic/PUNCHOUT - FNF Wii Funkin Title Bout.mp3
+2026-10-09T05:16:25 update: added ymusic/(fnf) WII FUNKIN TITLE BOUT - Last Breath ost.mp3
+2026-10-09T05:16:25 update: added ymusic/COUNTER PUNCH - Wii Funkin Title Bout OST.mp3
+2026-10-09T05:16:25 update: added ymusic/8. KING HIT REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:25 update: added ymusic/15. TREAD LIGHTLY REMIX - Wii Funkin Boing Mixed OST.mp3
+2026-10-09T05:16:25 update: added ymusic/3. Motionless In White - Necessary Evil OFFICIAL VIDEO.mp3
+2026-10-09T05:16:25 update: added ymusic/6. Motionless In White - Not My Type Dead As Fuck 2 (Official Audio).mp3
+2026-10-09T05:16:25 update: added ymusic/12. Motionless In White - Eternally Yours OFFICIAL VIDEO.mp3
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/9. BOXING PARADISE - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/26. RED WIRE (WHITTY) - FNF Rev-Mixed.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/13. DISADVANTAGE - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/5. TREAD-LIGHTLY FLP - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/19. FINAL DESTINATION GOD MODE - FNF Rev-Mixed OST.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/21. FNF Rev mixed-Bounce.m4a
+2026-10-09T05:16:25 ffmpeg/mov,mp4,m4a,3gp,3g2,mj2: stream 0, timescale not set
+2026-10-09T05:16:25 update: added ymusic/31. CHAMPION - FNF Rev-Mixed OST.m4a

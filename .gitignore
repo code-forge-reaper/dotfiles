@@ -2,5 +2,8 @@ confs/awesome/deficient
 confs/emacs/straight
 confs/emacs/eln-cache
 confs/emacs/.cache
+confs/mpd/playlists
 confs/emacs/auto-save-list
 *.elc
+*.eln
+__pycache__
