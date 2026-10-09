@@ -11,3 +11,4 @@ confs/mpd/playlists/*
 confs/mpd/log.txt
 confs/mpd/mpd.db
 confs/mpd/mpd.pid
+confs/mpd/mpcstate
